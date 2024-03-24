@@ -18,5 +18,4 @@ gh repo clone Mirovh/shed-of-graphs
 ```
 5. **Execute the setup dev file for your OS**
 6. **Open the shed-of-graphs root folder with vs code**
-7. **After modifying requirements-dev.txt, rerun the setup dev file**
-This will rebuild the dev virtual environment, which updates the packages accessible to the vs code IDE
+7. **When modifying requirements-dev.txt, rerun the setup dev file to rebuild the dev virtual environment. This updates the packages accessible to the vs code IDE for syntax highlighting**
