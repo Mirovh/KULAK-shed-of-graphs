@@ -1,0 +1,23 @@
+{
+    "rules": [
+        {
+            "rule": "max",
+            "count": 3,
+            "degree": 2
+        },
+        {
+            "rule": "min",
+            "count": 1,
+            "degree": 3
+        },
+        {
+            "rule": "exact",
+            "count": 2,
+            "degree": 4
+        },
+        {
+            "rule": "only",
+            "degree": 5
+        }
+    ]
+}

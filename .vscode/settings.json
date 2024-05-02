@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "${workspaceFolder}/env-dev/bin/python"
+    "python.pythonPath": "${workspaceFolder}/env-dev/bin/python",
+    "python.analysis.extraPaths": ["${workspaceFolder}/src/app"],
 }
