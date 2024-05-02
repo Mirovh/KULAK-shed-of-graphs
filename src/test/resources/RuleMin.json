@@ -1,0 +1,9 @@
+{
+    "rules": [
+        {
+            "rule": "min",
+            "count": 3,
+            "degree": 2
+        }
+    ]
+}

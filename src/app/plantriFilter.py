@@ -4,7 +4,10 @@ import re
 import json
 
 class Filter:
-    rules = []
+    """A filter for graph6 graphs based on the degree of vertices.
+    
+    Can be initialized with a filter string or a json object containing a list of rules.
+    """
 
     #region Initialization
     
@@ -16,6 +19,7 @@ class Filter:
             # If it's not valid JSON, treat it as a regular string
             self.filter = parse_string(filter_string)
 
+        self.rules = []
         for rule in self.filter["rules"]:
             self.rules.append(rule)
 
@@ -23,11 +27,13 @@ class Filter:
 
     #region Filtering
 
-    def sieve(self, graph):
+    def sieve(self, graph) -> bool:
         """Tests if the graph passes the filter rules.
 
         Args:
             graph (nx.Graph): The graph to test.
+        Returns:
+            bool: True if the graph passes the filter rules, False otherwise.
         """
         # Get the number of vertices for each degree
         degree_counts = {}
@@ -48,6 +54,8 @@ class Filter:
         Args:
             rule (dict): The rule to test.
             degree_counts (dict): The number of vertices for each degree.
+        Returns:
+            bool: True if the graph passes the rule, False otherwise.
         """
         try:
             if rule["rule"] == "min":
@@ -77,6 +85,8 @@ class Filter:
             degree (int): The degree to test.
             count (int): The minimum number of vertices with that degree.
             degree_counts (dict): The number of vertices for each degree.
+        Retuns:
+            bool: True if the graph has at least the specified number of vertices with the specified degree, False otherwise.
         """
         if degree not in degree_counts:
             return count <= 0
@@ -89,6 +99,8 @@ class Filter:
             degree (int): The degree to test.
             count (int): The maximum number of vertices with that degree.
             degree_counts (dict): The number of vertices for each degree.
+        Returns:
+            bool: True if the graph has at most the specified number of vertices with the specified degree, False otherwise.
         """
         if degree not in degree_counts:
             return count >= 0
@@ -101,6 +113,8 @@ class Filter:
             degree (int): The degree to test.
             count (int): The exact number of vertices with that degree.
             degree_counts (dict): The number of vertices for each degree.
+        Returns:
+            bool: True if the graph has exactly the specified number of vertices with the specified degree, False otherwise.
         """
         if degree not in degree_counts:
             return count == 0
@@ -112,6 +126,8 @@ class Filter:
         Args:
             degree (int): The degree to test.
             degree_counts (dict): The number of vertices for each degree.
+        Returns:
+            bool: True if the graph has only vertices with the specified degree, False otherwise.
         """
         for other_degree in degree_counts:
             if other_degree != degree:
@@ -129,13 +145,27 @@ def parse_string(filter_string):
 
     Args:
         filter_string (str): The filter string to parse.
+    Returns:
+        dict: A json object containing a list of rules.
     """
-    # rules = []
-    # for rule in filter_string.split(" and "):
-    #     if re.match(r"minimum \d+ vertices with degree \d+", rule):
-    #         min_match = re.match(r"minimum (\d+) vertices of degree (\d+)", rule)
-    #         rules.append({"rule": "min", "degree": min_match.group(2), "count": min_match.group(1)})
-    return None # TODO: Implement this
+    rules = []
+    for rule in filter_string.lower().split(" and "):
+        if re.fullmatch(r"minimum \d+ vertices with degree \d+", rule):
+            min_match = re.match(r"minimum (\d+) vertices with degree (\d+)", rule)
+            rules.append({"rule": "min", "degree": int(min_match.group(2)), "count": int(min_match.group(1))})
+        elif re.fullmatch(r"maximum \d+ vertices with degree \d+", rule):
+            max_match = re.match(r"maximum (\d+) vertices with degree (\d+)", rule)
+            rules.append({"rule": "max", "degree": int(max_match.group(2)), "count": int(max_match.group(1))})
+        elif re.fullmatch(r"exactly \d+ vertices with degree \d+", rule):
+            exa_match = re.match(r"exactly (\d+) vertices with degree (\d+)", rule)
+            rules.append({"rule": "exact", "degree": int(exa_match.group(2)), "count": int(exa_match.group(1))})
+        elif re.fullmatch(r"only vertices with degree \d+", rule):
+            onl_match = re.match(r"only vertices with degree (\d+)", rule)
+            rules.append({"rule": "only", "degree": int(onl_match.group(1))})
+        else:
+            raise FilterStringError("Could not parse rule \"" + rule + "\" in \"" + filter_string + "\"")
+    return {"rules": rules}
+    
 
 class FilterStringError(Exception):
         def __init__(self, message):
