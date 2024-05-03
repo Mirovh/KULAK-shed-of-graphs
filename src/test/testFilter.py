@@ -118,6 +118,20 @@ class TestPlantriFilter(unittest.TestCase):
     def testFilterCombinationMore(self):
         self.assertFalse(self.filterCombination.sieve(self.graph5))
 
+    def testFilterNoRulesJson(self):
+        with self.assertRaises(pf.FilterJsonError):
+            pf.Filter("{}")
+
+    def testFilterEmptyRulesJson(self):
+        emptyFilter = pf.Filter("{\"rules\": []}")
+        self.assertTrue(emptyFilter.sieve(self.graph2))
+        self.assertTrue(emptyFilter.sieve(self.graph3))
+        self.assertTrue(emptyFilter.sieve(self.graph4))
+        self.assertTrue(emptyFilter.sieve(self.graph5))
+        self.assertTrue(emptyFilter.sieve(self.graph2Extra))
+        self.assertTrue(emptyFilter.sieve(self.graph3Extra))
+        self.assertTrue(emptyFilter.sieve(self.graph4Extra))
+
 class TestPlantriFilterParsing(unittest.TestCase):
     def setUp(self):
         with open("src/test/resources/RuleTarget.json", "r") as file:

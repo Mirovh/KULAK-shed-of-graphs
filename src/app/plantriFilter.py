@@ -20,6 +20,8 @@ class Filter:
             self.filter = parse_string(filter_string)
 
         self.rules = []
+        if "rules" not in self.filter:
+            raise FilterJsonError("No rules found in json: " + str(self.filter))
         for rule in self.filter["rules"]:
             self.rules.append(rule)
 
@@ -74,9 +76,9 @@ class Filter:
                 degree = int(rule["degree"])
                 return self._rule_only(degree, degree_counts)
             else:
-                raise self.FilterJsonError("Unknown rule: " + rule["rule"])
+                raise FilterJsonError("Unknown rule: " + rule["rule"])
         except:
-            raise self.FilterJsonError("Could not parse rule: " + str(rule))
+            raise FilterJsonError("Could not parse rule: " + str(rule))
         
     def _rule_min(self, degree, count, degree_counts):
         """Tests if the graph has at least a certain number of vertices with a certain degree.
@@ -134,10 +136,6 @@ class Filter:
                 return False
         return True
 
-    class FilterJsonError(Exception):
-        def __init__(self, message):
-            self.message = message
-
     #endregion
 
 def parse_string(filter_string):
@@ -170,6 +168,10 @@ def parse_string(filter_string):
 class FilterStringError(Exception):
         def __init__(self, message):
             self.message = message
+
+class FilterJsonError(Exception):
+    def __init__(self, message):
+        self.message = message
 
 def main():
     # Read the filter string from the command line argument
