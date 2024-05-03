@@ -2,22 +2,22 @@
     "rules": [
         {
             "rule": "max",
-            "count": 3,
-            "degrees": [2]
+            "degrees": [2, 3],
+            "count": 3
         },
         {
             "rule": "min",
-            "count": 1,
-            "degrees": [3]
+            "degrees": [3, 4],
+            "count": 1
         },
         {
             "rule": "exact",
-            "count": 2,
-            "degrees": [4]
+            "degrees": [4, 5],
+            "count": 2
         },
         {
             "rule": "only",
-            "degrees": [5]
+            "degrees": [5, 6]
         }
     ]
 }

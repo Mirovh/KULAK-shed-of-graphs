@@ -3,7 +3,7 @@
         {
             "rule": "min",
             "count": 3,
-            "degree": 2
+            "degrees": [2]
         }
     ]
 }

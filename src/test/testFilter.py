@@ -136,6 +136,8 @@ class TestPlantriFilterParsing(unittest.TestCase):
     def setUp(self):
         with open("src/test/resources/RuleTarget.json", "r") as file:
             self.targetJson = json.load(file)
+        with open("src/test/resources/RuleTargetMultipleDegrees.json", "r") as file:
+            self.targetJsonMultipleDegrees = json.load(file)
     
     def testParseStringCorrectFull(self):
         # Tests a string containing all the rules split by "and" with various capitalizations
@@ -152,7 +154,7 @@ class TestPlantriFilterParsing(unittest.TestCase):
     def testParseStringCorrectSingle(self):
         filter_string = "maximum 3 vertices with degree 2"
         filter_json = pf.parse_string(filter_string)
-        self.assertEqual(filter_json, {"rules": [{"rule": "max", "degree": 2, "count": 3}]})
+        self.assertEqual(filter_json, {"rules": [{"rule": "max", "degrees": [2], "count": 3}]})
 
     def testParseStringFloat(self):
         filter_string = "maximum 3.5 vertices with degree 2"
@@ -176,6 +178,39 @@ class TestPlantriFilterParsing(unittest.TestCase):
         filter_string = "maximum 3 vertices with degree 2 minimum 1 vertices with degree 3 exactly 2 vertices with degree 4 only vertices with degree 5"
         with self.assertRaises(pf.FilterStringError):
             pf.parse_string(filter_string)
+            
+    def testParseStringMultipleDegrees(self):
+        filter_string = "maximum 3 vertices with degree 2 or 3"
+        filter_json = pf.parse_string(filter_string)
+        self.assertEqual(filter_json, {"rules": [{"rule": "max", "degrees": [2, 3], "count": 3}]})
+        filter_string = "minimum 3 vertices with degree 2 or 3 or 4"
+        filter_json = pf.parse_string(filter_string)
+        self.assertEqual(filter_json, {"rules": [{"rule": "min", "degrees": [2, 3, 4], "count": 3}]})
+        filter_string = "exactly 3 vertices with degree 2 or 3 or 4"
+        filter_json = pf.parse_string(filter_string)
+        self.assertEqual(filter_json, {"rules": [{"rule": "exact", "degrees": [2, 3, 4], "count": 3}]})
+        filter_string = "only vertices with degree 2 or 3 or 4"
+        filter_json = pf.parse_string(filter_string)
+        self.assertEqual(filter_json, {"rules": [{"rule": "only", "degrees": [2, 3, 4]}]})
 
+    def testParseStringMultipleRulesMultipleDegrees(self):
+        filter_string = "maximum 3 vertices with degree 2 or 3 and minimum 1 vertices with degree 3 or 4 and exactly 2 vertices with degree 4 or 5 and only vertices with degree 5 or 6"
+        filter_json = pf.parse_string(filter_string)
+        self.assertEqual(filter_json, self.targetJsonMultipleDegrees)
+        
+    def testParseStringOr(self):
+        filter_string = "maximum 3 vertices with degree 2 or "
+        with self.assertRaises(pf.FilterStringError):
+            pf.parse_string(filter_string)
+        filter_string = "maximum 3 vertices with degree 2 or"
+        with self.assertRaises(pf.FilterStringError):
+            pf.parse_string(filter_string)
+        filter_string = "maximum 3 vertices with degree 2 or and"
+        with self.assertRaises(pf.FilterStringError):
+            pf.parse_string(filter_string)
+        filter_string = "maximum 3 vertices with degree 2 or and 3"
+        with self.assertRaises(pf.FilterStringError):
+            pf.parse_string(filter_string)
+            
 if __name__ == '__main__':
     unittest.main()

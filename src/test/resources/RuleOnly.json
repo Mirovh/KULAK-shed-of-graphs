@@ -2,7 +2,7 @@
     "rules": [
         {
             "rule": "only",
-            "degree": 2
+            "degrees": [2]
         }
     ]
 }
