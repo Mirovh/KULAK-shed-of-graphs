@@ -21,7 +21,7 @@ source env/bin/activate
 pip install -r requirements.txt
 
 # Run Python script
-python src/hostServer.py
+python src/app/hostServer.py
 
 # Deactivate virtual environment
 deactivate

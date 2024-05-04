@@ -1,28 +1,24 @@
-try:
-    import flask
-except ImportError:
-    while True:
-        print("Failed import", flush=True)
 
-while True:
-    print("Hello, world!", flush=True)
+import flask
 
-# def main():
-#     # Read the filter string from the command line argument
-#     filter_string = sys.argv[1]
+print('Starting server...', flush=True)
 
-#     # Parse the filter string into filter rules
-#     filter_rules = parse_filter_string(filter_string)
+def main():
+    app = flask.Flask(__name__)
+    
+    # Redirect root to index
+    @app.route('/')
+    def root():
+        return flask.redirect(flask.url_for('index'))
 
-#     # Read the graph6 graph from standard input
-#     graph6 = sys.stdin.readline().strip()
+    # Serve index.html using Flask at index endpoint
+    @app.route('/index')
+    def index():
+        return flask.send_from_directory('static', 'index.html')
 
-#     # Parse the graph6 graph into a NetworkX graph
-#     graph = nx.parse_graph6(graph6)
+    # Start the server
+    app.run()
 
-#     # Apply the filter rules to the graph
-#     filtered_graph = apply_filter(graph, filter_rules)
+if __name__ == '__main__':
+    main()
 
-#     # Print the filtered graph in graph6 format
-#     filtered_graph6 = nx.write_graph6(filtered_graph)
-#     print(filtered_graph6)

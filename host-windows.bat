@@ -18,7 +18,7 @@ rem Install requirements
 pip install -r requirements.txt
 
 rem Run Python script
-python src/hostServer.py
+python src/app/hostServer.py
 
 rem Deactivate virtual environment
 deactivate
