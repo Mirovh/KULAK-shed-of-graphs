@@ -27,12 +27,12 @@ class GraphHistory:
         self.history.append(graphData)
         self.saveHistory()
 
-    def saveHistory(self, pathName):
-        with open(pathName, 'a') as f:
-            for i in range(0, len(self.history), 20):
-                graphs = self.history[i:i+20]
-                line = f"{time.time()}\t{len(self.history)}\t{len(self.history)}\t{self.filterString}\t{graphs}\n"
-                f.write(line)
+    def saveHistory(self):
+    with open(self.pathName, 'a') as f:
+        for i in range(0, len(self.history), 20):
+            graphs = self.history[i:i+20]
+            line = f"{time.time()}\t{len(self.history)}\t{len(self.history)}\t{self.filterString}\t{graphs}\n"
+            f.write(line)
 
     def loadHistory(self):
         with open(self.pathName, 'rb') as f:
