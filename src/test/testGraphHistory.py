@@ -18,3 +18,6 @@ class TestGraphHistory(unittest.TestCase):
         self.gh.saveHistory(self.gh.pathName)
         self.gh.loadHistory()
         self.assertEqual(len(self.gh.history), 1)
+        
+    if __name__ == '__main__':
+    unittest.main()
