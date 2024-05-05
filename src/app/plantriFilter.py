@@ -4,7 +4,6 @@ import re
 import json
 
 class Filter:
-
     """A filter for graph6 graphs based on the degree of vertices.
     
     Can be initialized with a filter string or a json object containing a list of rules.
@@ -20,6 +19,9 @@ class Filter:
             # If it's not valid JSON, treat it as a regular string
             self.filter = parse_string(filter_string)
 
+        self.rules = []
+        if "rules" not in self.filter:
+            raise FilterJsonError("No rules found in json: " + str(self.filter))
         for rule in self.filter["rules"]:
             self.rules.append(rule)
 
@@ -27,17 +29,13 @@ class Filter:
 
     #region Filtering
 
-
     def sieve(self, graph) -> bool:
-
         """Tests if the graph passes the filter rules.
 
         Args:
             graph (nx.Graph): The graph to test.
-
         Returns:
             bool: True if the graph passes the filter rules, False otherwise.
-
         """
         # Get the number of vertices for each degree
         degree_counts = {}
@@ -58,7 +56,6 @@ class Filter:
         Args:
             rule (dict): The rule to test.
             degree_counts (dict): The number of vertices for each degree.
-
         Returns:
             bool: True if the graph passes the rule, False otherwise.
         """
@@ -146,7 +143,6 @@ class Filter:
                 return False
         return True
 
-
     #endregion
 
 def parse_string(filter_string):
@@ -154,22 +150,9 @@ def parse_string(filter_string):
 
     Args:
         filter_string (str): The filter string to parse.
-
-    """
-    # rules = []
-    # for rule in filter_string.split(" and "):
-    #     if re.match(r"minimum \d+ vertices with degree \d+", rule):
-    #         min_match = re.match(r"minimum (\d+) vertices of degree (\d+)", rule)
-    #         rules.append({"rule": "min", "degree": min_match.group(2), "count": min_match.group(1)})
-    return None # TODO: Implement this
-
-class FilterStringError(Exception):
-        def __init__(self, message):
-            self.message = message
-
     Returns:
         dict: A json object containing a list of rules.
-    
+    """
     rules = []
     for rule in filter_string.lower().split(" and "):
         if re.fullmatch(r"minimum \d+ vertices with degree (\d+ or )*\d+", rule):
@@ -221,4 +204,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
