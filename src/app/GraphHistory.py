@@ -28,9 +28,9 @@ class GraphHistory:
         self.saveHistory()
 
     def saveHistory(self):
-        with open(self.pathName, 'a') as f:
+        with open(self.pathName, 'w') as f:
             for i in range(0, len(self.history), 20):
-                graphs = self.history[i:i+20]
+                graphs = list(self.history)[i:i+20]
                 line = f"{time.time()}\t{len(self.history)}\t{len(self.history)}\t{self.filterString}\t{graphs}\n"
                 f.write(line)
 
@@ -40,3 +40,4 @@ class GraphHistory:
     
     if __name__ == "__main__":
         main()
+
