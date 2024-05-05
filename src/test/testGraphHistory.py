@@ -20,4 +20,4 @@ class TestGraphHistory(unittest.TestCase):
         self.assertEqual(len(self.gh.history), 1)
         
     if __name__ == '__main__':
-    unittest.main()
+        unittest.main()
