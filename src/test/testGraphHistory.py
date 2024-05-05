@@ -15,7 +15,7 @@ class TestGraphHistory(unittest.TestCase):
     def testSaveAndLoadHistory(self):
         graph = nx.Graph()
         self.gh.addGraph(graph, 'filter')
-        self.gh.saveHistory(self.gh.pathName)
+        self.gh.saveHistory()
         self.gh.loadHistory()
         self.assertEqual(len(self.gh.history), 1)
         
