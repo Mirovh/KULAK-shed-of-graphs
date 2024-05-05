@@ -15,7 +15,6 @@ class TestGraphHistory(unittest.TestCase):
         graph = nx.Graph()
         self.gh.addGraph(graph, 'filter')
         self.gh.history.clear()
-        self.gh.loadHistory()
         self.assertEqual(len(self.gh.history), 1)
 
     def testSaveAndLoadMultipleGraphs(self):
@@ -23,7 +22,6 @@ class TestGraphHistory(unittest.TestCase):
         graph2 = nx.Graph()
         self.gh.addGraph(graph1, 'filter1')
         self.gh.addGraph(graph2, 'filter2')
-        self.gh.history.clear()
         self.gh.loadHistory()
         self.assertEqual(len(self.gh.history), 2)
 
