@@ -35,9 +35,6 @@ class GraphHistory:
         with open(self.pathName, 'rb') as f:
             loaded_history = pickle.load(f)
         self.history.extend(loaded_history)
-    
-    if __name__ == "__main__":
-        main()
 
 
 
