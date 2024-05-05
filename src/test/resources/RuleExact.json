@@ -1,0 +1,9 @@
+{
+    "rules": [
+        {
+            "rule": "exact",
+            "count": 3,
+            "degrees": [2]
+        }
+    ]
+}

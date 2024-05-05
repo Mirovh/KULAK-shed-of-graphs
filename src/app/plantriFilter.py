@@ -4,7 +4,11 @@ import re
 import json
 
 class Filter:
-    rules = []
+
+    """A filter for graph6 graphs based on the degree of vertices.
+    
+    Can be initialized with a filter string or a json object containing a list of rules.
+    """
 
     #region Initialization
     
@@ -23,11 +27,17 @@ class Filter:
 
     #region Filtering
 
-    def sieve(self, graph):
+
+    def sieve(self, graph) -> bool:
+
         """Tests if the graph passes the filter rules.
 
         Args:
             graph (nx.Graph): The graph to test.
+
+        Returns:
+            bool: True if the graph passes the filter rules, False otherwise.
+
         """
         # Get the number of vertices for each degree
         degree_counts = {}
@@ -48,79 +58,94 @@ class Filter:
         Args:
             rule (dict): The rule to test.
             degree_counts (dict): The number of vertices for each degree.
+
+        Returns:
+            bool: True if the graph passes the rule, False otherwise.
         """
         try:
             if rule["rule"] == "min":
-                degree = int(rule["degree"])
+                degrees = {int(r) for r in rule["degrees"]}
                 min_count = int(rule["count"])
-                return self._rule_min(degree, min_count, degree_counts)
+                return self._rule_min(degrees, min_count, degree_counts)
             elif rule["rule"] == "max":
-                degree = int(rule["degree"])
+                degrees = {int(r) for r in rule["degrees"]}
                 max_count = int(rule["count"])
-                return self._rule_max(degree, max_count, degree_counts)
+                return self._rule_max(degrees, max_count, degree_counts)
             elif rule["rule"] == "exact":
-                degree = int(rule["degree"])
+                degrees = {int(r) for r in rule["degrees"]}
                 exact_count = int(rule["count"])
-                return self._rule_exact(degree, exact_count, degree_counts)
+                return self._rule_exact(degrees, exact_count, degree_counts)
             elif rule["rule"] == "only":
-                degree = int(rule["degree"])
-                return self._rule_only(degree, degree_counts)
+                degrees = {int(r) for r in rule["degrees"]}
+                return self._rule_only(degrees, degree_counts)
             else:
-                raise self.FilterJsonError("Unknown rule: " + rule["rule"])
+                raise FilterJsonError("Unknown rule: " + rule["rule"])
         except:
-            raise self.FilterJsonError("Could not parse rule: " + str(rule))
+            raise FilterJsonError("Could not parse rule: " + str(rule))
         
-    def _rule_min(self, degree, count, degree_counts):
-        """Tests if the graph has at least a certain number of vertices with a certain degree.
+    def _rule_min(self, degrees, count, degree_counts):
+        """Tests if the graph has at least a certain number of vertices within a specified set of degrees.
 
         Args:
-            degree (int): The degree to test.
-            count (int): The minimum number of vertices with that degree.
+            degrees (set(int)): The set of degrees to test.
+            count (int): The minimum number of vertices within the set.
             degree_counts (dict): The number of vertices for each degree.
+        Retuns:
+            bool: True if the graph has at least the specified number of vertices within the specified set of degrees, False otherwise.
         """
-        if degree not in degree_counts:
-            return count <= 0
-        return degree_counts[degree] >= count
+        vertices = 0
+        for degree in degrees:
+            if degree in degree_counts:
+                vertices += degree_counts[degree]
+        return vertices >= count
+        
     
-    def _rule_max(self, degree, count, degree_counts):
-        """Tests if the graph has at most a certain number of vertices with a certain degree.
+    def _rule_max(self, degrees, count, degree_counts):
+        """Tests if the graph has at most a certain number of vertices within a specified set of degrees.
 
         Args:
-            degree (int): The degree to test.
-            count (int): The maximum number of vertices with that degree.
+            degree (int): The set of degrees to test.
+            count (int): The maximum number of vertices within that set.
             degree_counts (dict): The number of vertices for each degree.
+        Returns:
+            bool: True if the graph has at most the specified number of vertices within the specified set of degrees, False otherwise.
         """
-        if degree not in degree_counts:
-            return count >= 0
-        return degree_counts[degree] <= count
+        vertices = 0
+        for degree in degrees:
+            if degree in degree_counts:
+                vertices += degree_counts[degree]
+        return vertices <= count
     
-    def _rule_exact(self, degree, count, degree_counts):
-        """Tests if the graph has exactly a certain number of vertices with a certain degree.
+    def _rule_exact(self, degrees, count, degree_counts):
+        """Tests if the graph has exactly a certain number of vertices within a specified set of degrees.
 
         Args:
-            degree (int): The degree to test.
-            count (int): The exact number of vertices with that degree.
+            degree (int): The set of degrees to test.
+            count (int): The exact number of vertices within that set.
             degree_counts (dict): The number of vertices for each degree.
+        Returns:
+            bool: True if the graph has exactly the specified number of vertices with the specified set of degree, False otherwise.
         """
-        if degree not in degree_counts:
-            return count == 0
-        return degree_counts[degree] == count
+        vertices = 0
+        for degree in degrees:
+            if degree in degree_counts:
+                vertices += degree_counts[degree]
+        return vertices == count
     
-    def _rule_only(self, degree, degree_counts):
-        """Tests if the graph has only vertices with a certain degree.
+    def _rule_only(self, degrees, degree_counts):
+        """Tests if the graph has only vertices within a certain set of degrees.
 
         Args:
-            degree (int): The degree to test.
+            degree (int): The set of degrees to test.
             degree_counts (dict): The number of vertices for each degree.
+        Returns:
+            bool: True if the graph has only vertices within the specified set of degree, False otherwise.
         """
-        for other_degree in degree_counts:
-            if other_degree != degree:
+        for d in degree_counts:
+            if d not in degrees:
                 return False
         return True
 
-    class FilterJsonError(Exception):
-        def __init__(self, message):
-            self.message = message
 
     #endregion
 
@@ -129,6 +154,7 @@ def parse_string(filter_string):
 
     Args:
         filter_string (str): The filter string to parse.
+
     """
     # rules = []
     # for rule in filter_string.split(" and "):
@@ -140,3 +166,59 @@ def parse_string(filter_string):
 class FilterStringError(Exception):
         def __init__(self, message):
             self.message = message
+
+    Returns:
+        dict: A json object containing a list of rules.
+    
+    rules = []
+    for rule in filter_string.lower().split(" and "):
+        if re.fullmatch(r"minimum \d+ vertices with degree (\d+ or )*\d+", rule):
+            min_match = re.findall(r"\d+", rule)
+            rules.append({"rule": "min", "degrees": [int(degree) for degree in min_match[1:]], "count": int(min_match[0])})
+        elif re.fullmatch(r"maximum \d+ vertices with degree (\d+ or )*\d+", rule):
+            max_match = re.findall(r"\d+", rule)
+            rules.append({"rule": "max", "degrees": [int(degree) for degree in max_match[1:]], "count": int(max_match[0])})
+        elif re.fullmatch(r"exactly \d+ vertices with degree (\d+ or )*\d+", rule):
+            exa_match = re.findall(r"\d+", rule)
+            rules.append({"rule": "exact", "degrees": [int(degree) for degree in exa_match[1:]], "count": int(exa_match[0])})
+        elif re.fullmatch(r"only vertices with degree (\d+ or )*\d+", rule):
+            onl_match = re.findall(r"\d+", rule)
+            rules.append({"rule": "only", "degrees": [int(degree) for degree in onl_match]})
+        else:
+            raise FilterStringError("Could not parse rule \"" + rule + "\" in \"" + filter_string + "\"")
+    return {"rules": rules}
+    
+
+class FilterStringError(Exception):
+        def __init__(self, message):
+            self.message = message
+
+class FilterJsonError(Exception):
+    def __init__(self, message):
+        self.message = message
+
+def main():
+    # Read the filter string from the command line argument
+    filter_string = sys.argv[1]
+
+    # Make a filter object from the filter string
+    filter = Filter(filter_string)
+
+    # Continuously read the graph6 graphs from standard input
+    for line in sys.stdin:
+        graph6 = line.strip()
+
+        # Parse the graph6 graph into a NetworkX graph
+        graph = nx.parse_graph6(graph6)
+
+        # Apply the filter rules to the graph
+        filtered_graph = filter.sieve(graph)
+
+        # If the graph passes the filter, print it in graph6 format
+        if filtered_graph:
+            filtered_graph6 = nx.write_graph6(graph)
+            print(filtered_graph6)
+
+if __name__ == "__main__":
+    main()
+
