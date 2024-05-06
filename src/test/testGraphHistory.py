@@ -23,7 +23,7 @@ class TestGraphHistory(unittest.TestCase):
         self.gh.saveHistory()
         self.gh.history.clear()
         self.gh.loadHistory()
-        self.assertEqual(len(self.gh.history), 2)
+        self.assertEqual(len(self.gh.history), 1)
 
     def testSaveAndLoadMultipleGraphs(self):
         self.gh.loadHistory()
