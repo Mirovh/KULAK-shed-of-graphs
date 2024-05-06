@@ -33,10 +33,10 @@ class TestGraphHistory(unittest.TestCase):
 
 
     def testFilename(self):
-        self.assertEqual(self.gh.pathName, self.filename)
+        self.assertEqual(self.gh.pathName, self.history)
 
     def testFileLocation(self):
-        self.assertTrue(os.path.exists(self.filename))
+        self.assertTrue(os.path.exists(self.history))
 
 
         
