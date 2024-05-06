@@ -9,7 +9,7 @@ class GraphHistory:
         self.inputCount = 0
         self.outputCount = 0
         try:
-            with open(self.pathName, 'rb') as historyFile:
+            with open(self.pathName, 'rb') as f:
                 self.history = pickle.load(f)
         except (FileNotFoundError, EOFError, pickle.UnpicklingError):
             self.history = deque(maxlen=20)
@@ -29,11 +29,11 @@ class GraphHistory:
         self.saveHistory()
 
     def saveHistory(self):
-        with open(self.pathName, 'wb') as historyFile:
+        with open(self.pathName, 'wb') as f:
             pickle.dump(self.history, f)
 
     def loadHistory(self):
-        with open(self.pathName, 'rb') as historyFile:
+        with open(self.pathName, 'rb') as f:
             loaded_history = pickle.load(f)
         self.history.extend(loaded_history)
 
