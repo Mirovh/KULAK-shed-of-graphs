@@ -6,6 +6,9 @@ import os
 class TestGraphHistory(unittest.TestCase):
     def setUp(self):
         self.gh = gh.GraphHistory('testPath')
+        self.gh.saveHistory() # necessary because otherwise path may not exist
+        self.gh.loadHistory()
+        self.gh.history.clear()
         self.gh.saveHistory()
 
     def testAddGraph(self):
