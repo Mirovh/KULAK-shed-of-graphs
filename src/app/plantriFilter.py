@@ -2,6 +2,7 @@ import sys
 import networkx as nx
 import re
 import json
+import numpy
 import matplotlib.pyplot as plt
 
 class Filter:
