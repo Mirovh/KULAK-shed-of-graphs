@@ -6,6 +6,7 @@ import os
 class TestGraphHistory(unittest.TestCase):
     def setUp(self):
         self.gh = gh.GraphHistory('testPath')
+        self.gh.saveHistory
 
     def testAddGraph(self):
         graph = nx.Graph()
@@ -33,10 +34,10 @@ class TestGraphHistory(unittest.TestCase):
 
 
     def testFilename(self):
-        self.assertEqual(self.gh.pathName, file_name = os.path.basename(path))
+        self.assertEqual(self.gh.pathName, 'testPath')
 
     def testFileLocation(self):
-        self.assertTrue(os.path.exists(self.filename))
+        self.assertTrue(os.path.exists('testPath'))
 
 
         
