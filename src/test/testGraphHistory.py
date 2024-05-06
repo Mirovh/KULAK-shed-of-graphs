@@ -6,7 +6,7 @@ import os
 class TestGraphHistory(unittest.TestCase):
     def setUp(self):
         self.gh = gh.GraphHistory('testPath')
-        self.gh.saveHistory
+        self.gh.saveHistory()
 
     def testAddGraph(self):
         graph = nx.Graph()
