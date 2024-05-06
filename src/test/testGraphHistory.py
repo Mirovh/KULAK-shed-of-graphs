@@ -1,6 +1,7 @@
 import unittest
 import networkx as nx 
 import GraphHistory as gh
+import os
 
 class TestGraphHistory(unittest.TestCase):
     def setUp(self):
