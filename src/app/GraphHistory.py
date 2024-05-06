@@ -1,7 +1,7 @@
 import pickle
 import time
 from collections import deque
-import os
+
 
 class GraphHistory:
     def __init__(self, path):
