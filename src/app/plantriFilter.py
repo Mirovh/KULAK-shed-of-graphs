@@ -2,7 +2,7 @@ import sys
 import networkx as nx
 import re
 import json
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 class Filter:
     """A filter for graph6 graphs based on the degree of vertices.
