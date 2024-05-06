@@ -37,11 +37,7 @@ class GraphHistory:
             loaded_history = pickle.load(f)
         self.history.extend(loaded_history)
 
-    def testFilename(self):
-        self.assertEqual(self.gh.pathName, self.filename)
 
-    def testFileLocation(self):
-        self.assertTrue(os.path.exists(self.filename))
 
 
 
