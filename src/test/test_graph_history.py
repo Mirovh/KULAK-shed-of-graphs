@@ -1,51 +1,52 @@
-import unittest
 import networkx as nx 
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'app'))
-import GraphHistory as gh
-import os
+import GraphHistory
+import pytest
 
-class TestGraphHistory(unittest.TestCase):
-    def setUp(self):
-        self.gh = gh.GraphHistory('testPath')
-        self.gh.saveHistory() # necessary because otherwise path may not exist
-        self.gh.loadHistory()
-        self.gh.history.clear()
-        self.gh.saveHistory()
+@pytest.fixture
+def setup():
+    gh = GraphHistory.GraphHistory('testPath')
+    gh.saveHistory() # necessary because otherwise path may not exist
+    gh.loadHistory()
+    gh.history.clear()
+    gh.saveHistory()
 
-    def testAddGraph(self):
-        graph = nx.Graph()
-        self.gh.addGraph(graph, 'filter')
-        self.assertEqual(len(self.gh.history), 1)
+    yield gh    # Run the test
 
-    def testSaveAndLoadHistory(self):
-        self.gh.loadHistory()
-        graph = nx.Graph()
-        self.gh.addGraph(graph, 'filter')
-        self.gh.saveHistory()
-        self.gh.history.clear()
-        self.gh.loadHistory()
-        self.assertEqual(len(self.gh.history), 1)
+    gh = None
 
-    def testSaveAndLoadMultipleGraphs(self):
-        self.gh.loadHistory()
-        graph1 = nx.Graph()
-        graph2 = nx.Graph()
-        self.gh.addGraph(graph1, 'filter1')
-        self.gh.addGraph(graph2, 'filter2')
-        self.gh.saveHistory()
-        self.gh.history.clear()
-        self.gh.loadHistory()
-        self.assertEqual(len(self.gh.history), 2)
+def testAddGraph(setup):
+    gh = setup
+    graph = nx.Graph()
+    gh.addGraph(graph, 'filter')
+    assert len(gh.history) == 1
 
-    def testFilename(self):
-        self.assertEqual(self.gh.pathName, 'testPath')
+def testSaveAndLoadHistory(setup):
+    gh = setup
+    gh.loadHistory()
+    graph = nx.Graph()
+    gh.addGraph(graph, 'filter')
+    gh.saveHistory()
+    gh.history.clear()
+    gh.loadHistory()
+    assert len(gh.history) == 1
 
-    def testFileLocation(self):
-        self.assertTrue(os.path.exists('testPath'))
+def testSaveAndLoadMultipleGraphs(setup):
+    gh = setup
+    gh.loadHistory()
+    graph1 = nx.Graph()
+    graph2 = nx.Graph()
+    gh.addGraph(graph1, 'filter1')
+    gh.addGraph(graph2, 'filter2')
+    gh.saveHistory()
+    gh.history.clear()
+    gh.loadHistory()
+    assert len(gh.history) == 2
 
+def testFilename(setup):
+    gh = setup
+    assert gh.pathName == 'testPath'
 
-        
-if __name__ == '__main__':
-    unittest.main()
-
+def testFileLocation():
+    assert os.path.exists('testPath')
