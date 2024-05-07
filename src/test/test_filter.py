@@ -9,142 +9,158 @@ import pytest
 @pytest.fixture
 def setup(self):
     with open("src/test/resources/RuleMax.json", "r") as file:
-        self.filterMax = pf.Filter(file.read())
+        filterMax = pf.Filter(file.read())
     with open("src/test/resources/RuleMin.json", "r") as file:
-        self.filterMin = pf.Filter(file.read())
+        filterMin = pf.Filter(file.read())
     with open("src/test/resources/RuleOnly.json", "r") as file:
-        self.filterOnly = pf.Filter(file.read())
+        filterOnly = pf.Filter(file.read())
     with open("src/test/resources/RuleExact.json", "r") as file:
-        self.filterExact = pf.Filter(file.read())
+        filterExact = pf.Filter(file.read())
     with open("src/test/resources/RuleCombination.json", "r") as file:
-        self.filterCombination = pf.Filter(file.read())
-    self.graph2 = nx.MultiGraph()
-    self.graph2.add_node(1)
-    self.graph2.add_node(2)
-    self.graph2.add_edge(1, 2)
-    self.graph2.add_edge(2, 1)
-    self.graph3 = nx.Graph()
-    self.graph3.add_node(1)
-    self.graph3.add_node(2)
-    self.graph3.add_node(3)
-    self.graph3.add_edge(1, 2)
-    self.graph3.add_edge(2, 3)
-    self.graph3.add_edge(3, 1)
-    self.graph4 = nx.Graph()
-    self.graph4.add_node(1)
-    self.graph4.add_node(2)
-    self.graph4.add_node(3)
-    self.graph4.add_node(4)
-    self.graph4.add_edge(1, 2)
-    self.graph4.add_edge(2, 3)
-    self.graph4.add_edge(3, 4)
-    self.graph4.add_edge(4, 1)
-    self.graph5 = nx.Graph()
-    self.graph5.add_node(1)
-    self.graph5.add_node(2)
-    self.graph5.add_node(3)
-    self.graph5.add_node(4)
-    self.graph5.add_node(5)
-    self.graph5.add_edge(1, 2)
-    self.graph5.add_edge(2, 3)
-    self.graph5.add_edge(3, 4)
-    self.graph5.add_edge(4, 5)
-    self.graph5.add_edge(5, 1)
+        filterCombination = pf.Filter(file.read())
+    graph2 = nx.MultiGraph()
+    graph2.add_node(1)
+    graph2.add_node(2)
+    graph2.add_edge(1, 2)
+    graph2.add_edge(2, 1)
+    graph3 = nx.Graph()
+    graph3.add_node(1)
+    graph3.add_node(2)
+    graph3.add_node(3)
+    graph3.add_edge(1, 2)
+    graph3.add_edge(2, 3)
+    graph3.add_edge(3, 1)
+    graph4 = nx.Graph()
+    graph4.add_node(1)
+    graph4.add_node(2)
+    graph4.add_node(3)
+    graph4.add_node(4)
+    graph4.add_edge(1, 2)
+    graph4.add_edge(2, 3)
+    graph4.add_edge(3, 4)
+    graph4.add_edge(4, 1)
+    graph5 = nx.Graph()
+    graph5.add_node(1)
+    graph5.add_node(2)
+    graph5.add_node(3)
+    graph5.add_node(4)
+    graph5.add_node(5)
+    graph5.add_edge(1, 2)
+    graph5.add_edge(2, 3)
+    graph5.add_edge(3, 4)
+    graph5.add_edge(4, 5)
+    graph5.add_edge(5, 1)
     # We create additional graphs with an extra node with degree 0
-    self.graph2Extra = self.graph2.copy()
-    self.graph2Extra.add_node(3)
-    self.graph3Extra = self.graph3.copy()
-    self.graph3Extra.add_node(4)
-    self.graph4Extra = self.graph4.copy()
-    self.graph4Extra.add_node(5)
+    graph2Extra = graph2.copy()
+    graph2Extra.add_node(3)
+    graph3Extra = graph3.copy()
+    graph3Extra.add_node(4)
+    graph4Extra = graph4.copy()
+    graph4Extra.add_node(5)
 
-    yield   # Run the test
+    yield graph2, graph3, graph4, graph5, graph2Extra, graph3Extra, graph4Extra, filterMax, filterMin, filterOnly, filterExact, filterCombination   # Run the test
 
-    self.graph2 = None
-    self.graph3 = None
-    self.graph4 = None
-    self.graph5 = None
-    self.graph2Extra = None
-    self.graph3Extra = None
-    self.graph4Extra = None
-    self.filterMax = None
-    self.filterMin = None
-    self.filterOnly = None
-    self.filterExact = None
-    self.filterCombination = None
+    graph2 = None
+    graph3 = None
+    graph4 = None
+    graph5 = None
+    graph2Extra = None
+    graph3Extra = None
+    graph4Extra = None
+    filterMax = None
+    filterMin = None
+    filterOnly = None
+    filterExact = None
+    filterCombination = None
 
 
-def test_filter_max_more(self):
-    self.assertFalse(self.filterMax.sieve(self.graph4))
-    self.assertFalse(self.filterMax.sieve(self.graph4Extra))
+def test_filter_max_more(setup):
+    _, _, graph4, _, _, _, graph4Extra, filterMax, _, _, _, _ = setup
+    assert not filterMax.sieve(graph4)
+    assert not filterMax.sieve(graph4Extra)
 
-def test_filter_max_less(self):
-    self.assertTrue(self.filterMax.sieve(self.graph2))
-    self.assertTrue(self.filterMax.sieve(self.graph2Extra))
+def test_filter_max_less(setup):
+    graph2, _, _, _, graph2Extra, _, _, filterMax, _, _, _, _ = setup
+    assert filterMax.sieve(graph2)
+    assert filterMax.sieve(graph2Extra)
 
-def test_filter_max_equal(self):
-    self.assertTrue(self.filterMax.sieve(self.graph3))
-    self.assertTrue(self.filterMax.sieve(self.graph3Extra))
+def test_filter_max_equal(setup):
+    _, graph3, _, _, _, graph3Extra, _, filterMax, _, _, _, _ = setup
+    assert filterMax.sieve(graph3)
+    assert filterMax.sieve(graph3Extra)
 
-def test_filter_min_more(self):
-    self.assertTrue(self.filterMin.sieve(self.graph4))
-    self.assertTrue(self.filterMin.sieve(self.graph4Extra))
+def test_filter_min_more(setup):
+    _, _, graph4, _, _, _, graph4Extra, _, filterMin, _, _, _ = setup
+    assert filterMin.sieve(graph4)
+    assert filterMin.sieve(graph4Extra)
 
-def test_filter_min_less(self):
-    self.assertFalse(self.filterMin.sieve(self.graph2))
-    self.assertFalse(self.filterMin.sieve(self.graph2Extra))
+def test_filter_min_less(setup):
+    graph2, _, _, _, graph2Extra, _, _, _, filterMin, _, _, _ = setup
+    assert not filterMin.sieve(graph2)
+    assert not filterMin.sieve(graph2Extra)
 
-def test_filter_min_equal(self):
-    self.assertTrue(self.filterMin.sieve(self.graph3))
-    self.assertTrue(self.filterMin.sieve(self.graph3Extra))
+def test_filter_min_equal(setup):
+    _, graph3, _, _, _, graph3Extra, _, _, filterMin, _, _, _ = setup
+    assert filterMin.sieve(graph3)
+    assert filterMin.sieve(graph3Extra)
 
-def test_filter_only_true(self):
-    self.assertTrue(self.filterOnly.sieve(self.graph2))
-    self.assertTrue(self.filterOnly.sieve(self.graph3))
-    self.assertTrue(self.filterOnly.sieve(self.graph4))
+def test_filter_only_true(setup):
+    graph2, graph3, graph4, _, _, _, _, _, _, filterOnly, _, _ = setup
+    assert filterOnly.sieve(graph2)
+    assert filterOnly.sieve(graph3)
+    assert filterOnly.sieve(graph4)
 
-def test_filter_only_false(self):
-    self.assertFalse(self.filterOnly.sieve(self.graph2Extra))
-    self.assertFalse(self.filterOnly.sieve(self.graph3Extra))
-    self.assertFalse(self.filterOnly.sieve(self.graph4Extra))
+def test_filter_only_false(setup):
+    _, _, _, _, graph2Extra, graph3Extra, graph4Extra, _, _, filterOnly, _, _ = setup
+    assert not filterOnly.sieve(graph2Extra)
+    assert not filterOnly.sieve(graph3Extra)
+    assert not filterOnly.sieve(graph4Extra)
 
-def test_filter_exact_more(self):
-    self.assertFalse(self.filterExact.sieve(self.graph4))
-    self.assertFalse(self.filterExact.sieve(self.graph4Extra))
+def test_filter_exact_more(setup):
+    _, _, graph4, _, _, _, graph4Extra, _, _, _, filterExact, _ = setup
+    assert not filterExact.sieve(graph4)
+    assert not filterExact.sieve(graph4Extra)
 
-def test_filter_exact_less(self):
-    self.assertFalse(self.filterExact.sieve(self.graph2))
-    self.assertFalse(self.filterExact.sieve(self.graph2Extra))
+def test_filter_exact_less(setup):
+    graph2, _, _, _, graph2Extra, _, _, _, _, _, filterExact, _ = setup
+    assert not filterExact.sieve(graph2)
+    assert not filterExact.sieve(graph2Extra)
 
-def test_filter_exact_equal(self):
-    self.assertTrue(self.filterExact.sieve(self.graph3))
-    self.assertTrue(self.filterExact.sieve(self.graph3Extra))
+def test_filter_exact_equal(setup):
+    _, graph3, _, _, _, graph3Extra, _, _, _, _, filterExact, _ = setup
+    assert filterExact.sieve(graph3)
+    assert filterExact.sieve(graph3Extra)
 
-def test_filter_combination_less(self):
-    self.assertFalse(self.filterCombination.sieve(self.graph2))
-    self.assertFalse(self.filterCombination.sieve(self.graph2Extra))
+def test_filter_combination_less(setup):
+    graph2, _, _, _, graph2Extra, _, _, _, _, _, _, filterCombination = setup
+    assert not filterCombination.sieve(graph2)
+    assert not filterCombination.sieve(graph2Extra)
 
-def test_filter_combination_lower_bound(self):
-    self.assertTrue(self.filterCombination.sieve(self.graph3))
-    self.assertTrue(self.filterCombination.sieve(self.graph3Extra))
+def test_filter_combination_lower_bound(setup):
+    _, graph3, _, _, _, graph3Extra, _, _, _, _, _, filterCombination = setup
+    assert filterCombination.sieve(graph3)
+    assert filterCombination.sieve(graph3Extra)
 
-def test_filter_combination_upper_bound(self):
-    self.assertTrue(self.filterCombination.sieve(self.graph4))
-    self.assertTrue(self.filterCombination.sieve(self.graph4Extra))
+def test_filter_combination_upper_bound(setup):
+    _, _, graph4, _, _, _, graph4Extra, _, _, _, _, filterCombination = setup
+    assert filterCombination.sieve(graph4)
+    assert filterCombination.sieve(graph4Extra)
 
-def test_filter_combination_more(self):
-    self.assertFalse(self.filterCombination.sieve(self.graph5))
+def test_filter_combination_more(setup):
+    _, _, _, graph5, _, _, _, _, _, _, _, filterCombination = setup
+    assert not filterCombination.sieve(graph5)
 
-def test_filter_no_rules_json(self):
-    with self.assertRaises(pf.FilterJsonError):
+def test_filter_no_rules_json():
+    with assertRaises(pf.FilterJsonError):
         pf.Filter("{}")
 
-def test_filter_empty_rules_json(self):
+def test_filter_empty_rules_json(setup):
+    graph2, graph3, graph4, graph5, graph2Extra, graph3Extra, graph4Extra, _, _, _, _, _ = setup
     emptyFilter = pf.Filter("{\"rules\": []}")
-    self.assertTrue(emptyFilter.sieve(self.graph2))
-    self.assertTrue(emptyFilter.sieve(self.graph3))
-    self.assertTrue(emptyFilter.sieve(self.graph4))
-    self.assertTrue(emptyFilter.sieve(self.graph5))
-    self.assertTrue(emptyFilter.sieve(self.graph2Extra))
-    self.assertTrue(emptyFilter.sieve(self.graph3Extra))
-    self.assertTrue(emptyFilter.sieve(self.graph4Extra))
+    assert emptyFilter.sieve(graph2)
+    assert emptyFilter.sieve(graph3)
+    assert emptyFilter.sieve(graph4)
+    assert emptyFilter.sieve(graph5)
+    assert emptyFilter.sieve(graph2Extra)
+    assert emptyFilter.sieve(graph3Extra)
+    assert emptyFilter.sieve(graph4Extra)
