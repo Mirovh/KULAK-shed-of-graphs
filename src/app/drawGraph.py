@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 
-def draw_graph(graph, path):
+def draw_graph(graph, path, format):
     """Draws a graph and saves it to a file.
 
     Args:
@@ -9,4 +9,4 @@ def draw_graph(graph, path):
         path (str): The path to the file where the graph will be saved.
     """
     nx.draw(graph)
-    plt.savefig(path)
+    plt.savefig(path, format=format)
