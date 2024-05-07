@@ -50,10 +50,10 @@ def main():
         id = filename
         if len(gh.history) > int(id):
             graph = gh.history[id]
-            draw_graph(graph, 'static/history/images/' + id + '.png')
-            return flask.send_from_directory('static/history/images', id + '.png')
+            draw_graph(graph, 'history/images/' + id + '.png')
+            return flask.send_from_directory('history/images', id + '.png')
         else:
-            return flask.send_from_directory('static/history/images', 'default.png')
+            return flask.send_from_directory('history/images', 'default.png') # TODO: add a default image
 
     # Start the server
     app.run(debug=True)
