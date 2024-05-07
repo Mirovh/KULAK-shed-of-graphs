@@ -17,40 +17,41 @@
     <div style="display: flex;">
         <div style="width: 60%;">
             <table id="graphTable">
-                <tr> <!--TODO: add textual representation of graph-->
-                    <td><img id="graph1" src="" alt="element1"></td>
-                    <td><img id="graph2" src="" alt="element2"></td>
-                    <td><img id="graph3" src="" alt="element3"></td>
-                    <td><img id="graph4" src="" alt="element4"></td>
-                    <td><img id="graph5" src="" alt="element5"></td>
+                <tr>
+                    <td id="graph1"><p></p><img src="" alt="element1"></td>
+                    <td id="graph2"><p></p><img src="" alt="element2"></td>
+                    <td id="graph3"><p></p><img src="" alt="element3"></td>
+                    <td id="graph4"><p></p><img src="" alt="element4"></td>
+                    <td id="graph5"><p></p><img src="" alt="element5"></td>
                 </tr>
                 <tr>
-                    <td><img id="graph6" src="" alt="element6"></td>
-                    <td><img id="graph7" src="" alt="element7"></td>
-                    <td><img id="graph8" src="" alt="element8"></td>
-                    <td><img id="graph9" src="" alt="element9"></td>
-                    <td><img id="graph10" src="" alt="element10"></td>
+                    <td id="graph6"><p></p><img src="" alt="element6"></td>
+                    <td id="graph7"><p></p><img src="" alt="element7"></td>
+                    <td id="graph8"><p></p><img src="" alt="element8"></td>
+                    <td id="graph9"><p></p><img src="" alt="element9"></td>
+                    <td id="graph10"><p></p><img src="" alt="element10"></td>
                 </tr>
                 <tr>
-                    <td><img id="graph11" src="" alt="element11"></td>
-                    <td><img id="graph12" src="" alt="element12"></td>
-                    <td><img id="graph13" src="" alt="element13"></td>
-                    <td><img id="graph14" src="" alt="element14"></td>
-                    <td><img id="graph15" src="" alt="element15"></td>
+                    <td id="graph11"><p></p><img src="" alt="element11"></td>
+                    <td id="graph12"><p></p><img src="" alt="element12"></td>
+                    <td id="graph13"><p></p><img src="" alt="element13"></td>
+                    <td id="graph14"><p></p><img src="" alt="element14"></td>
+                    <td id="graph15"><p></p><img src="" alt="element15"></td>
                 </tr>
                 <tr>
-                    <td><img id="graph16" src="" alt="element16"></td>
-                    <td><img id="graph17" src="" alt="element17"></td>
-                    <td><img id="graph18" src="" alt="element18"></td>
-                    <td><img id="graph19" src="" alt="element19"></td>
-                    <td><img id="graph20" src="" alt="element20"></td>
+                    <td id="graph16"><p></p><img src="" alt="element16"></td>
+                    <td id="graph17"><p></p><img src="" alt="element17"></td>
+                    <td id="graph18"><p></p><img src="" alt="element18"></td>
+                    <td id="graph19"><p></p><img src="" alt="element19"></td>
+                    <td id="graph20"><p></p><img src="" alt="element20"></td>
                 </tr>
             </table>
+            <button id="reloadButton">Reload Graph History</button>
         </div>
         <div style="width: 40%;">
-            <form>
-                <input type="text" placeholder="Input 1">
-                <input type="text" placeholder="Input 2">
+            <form id="graphForm">
+                <input id="orderInput" type="text" placeholder="4">
+                <input id="filterInput" type="text" placeholder="Maximum 2 nodes with degree 2 or 3">
                 <button type="submit">Submit</button>
             </form>
         </div>

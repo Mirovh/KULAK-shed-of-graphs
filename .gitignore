@@ -134,6 +134,9 @@ env-dev.bak/
 venv.bak/
 venv-dev.bak/
 
+# History backups
+history
+
 # Spyder project settings
 .spyderproject
 .spyproject
