@@ -180,31 +180,3 @@ class FilterStringError(Exception):
 class FilterJsonError(Exception):
     def __init__(self, message):
         self.message = message
-
-
-
-def main():
-    # Read the filter string from the command line argument
-    filter_string = sys.argv[1]
-
-    # Make a filter object from the filter string
-    filter = Filter(filter_string)
-
-    # Continuously read the graph6 graphs from standard input
-    for line in sys.stdin:
-        graph6 = line.strip()
-
-        # Parse the graph6 graph into a NetworkX graph
-        graph = nx.parse_graph6(graph6)
-
-        # Apply the filter rules to the graph
-        filtered_graph = filter.sieve(graph)
-
-        # If the graph passes the filter, print it in graph6 format
-        if filtered_graph:
-            filtered_graph6 = nx.write_graph6(graph)
-            print(filtered_graph6)
-
-if __name__ == "__main__":
-    main()
-
