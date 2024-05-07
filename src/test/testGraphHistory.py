@@ -1,7 +1,6 @@
 import unittest
 import networkx as nx 
-import sys
-import os
+import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'app'))
 import GraphHistory as gh
 import os

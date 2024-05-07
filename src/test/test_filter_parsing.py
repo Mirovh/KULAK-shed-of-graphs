@@ -1,6 +1,8 @@
 import pytest
 import json
-import src.app.plantriFilter as pf
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'app'))
+import plantriFilter as pf
 
 
 @pytest.fixture
