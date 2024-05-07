@@ -2,8 +2,7 @@ import sys
 import networkx as nx
 import re
 import json
-import numpy
-import matplotlib.pyplot as plt
+
 
 class Filter:
     """A filter for graph6 graphs based on the degree of vertices.
@@ -182,15 +181,7 @@ class FilterJsonError(Exception):
     def __init__(self, message):
         self.message = message
 
-def draw_graph(graph, path):
-    """Draws a graph and saves it to a file.
 
-    Args:
-        graph (nx.Graph): The graph to draw.
-        path (str): The path to the file where the graph will be saved.
-    """
-    nx.draw(graph)
-    plt.savefig(path)
 
 def main():
     # Read the filter string from the command line argument
