@@ -15,7 +15,7 @@ def main():
     ########################################
     #   Graph drawing
     ########################################
-    allowed_formats = ['png', 'pdf', 'svg', 'eps']
+    allowed_formats = ['png', 'pdf', 'svg', 'eps', 'ps']
     if args.image_format != None and args.image_folder != None:
         if args.image_format not in allowed_formats:
             raise ValueError(f"Image format must be one of {allowed_formats}")
