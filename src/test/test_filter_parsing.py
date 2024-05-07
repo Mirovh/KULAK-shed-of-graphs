@@ -6,7 +6,7 @@ import plantriFilter as pf
 
 
 @pytest.fixture
-def setup(self):
+def setup():
     with open("src/test/resources/RuleTarget.json", "r") as file:
         targetJson = json.load(file)
     with open("src/test/resources/RuleTargetMultipleDegrees.json", "r") as file:
@@ -14,8 +14,8 @@ def setup(self):
 
     yield targetJson, targetJsonMultipleDegrees   # Run the test
 
-    self.targetJson = None
-    self.targetJsonMultipleDegrees = None
+    targetJson = None
+    targetJsonMultipleDegrees = None
 
 
 def test_parse_string_correct_full(setup):

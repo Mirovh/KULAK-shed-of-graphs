@@ -7,7 +7,7 @@ import pytest
 
 
 @pytest.fixture
-def setup(self):
+def setup():
     with open("src/test/resources/RuleMax.json", "r") as file:
         filterMax = pf.Filter(file.read())
     with open("src/test/resources/RuleMin.json", "r") as file:
@@ -151,7 +151,7 @@ def test_filter_combination_more(setup):
     assert not filterCombination.sieve(graph5)
 
 def test_filter_no_rules_json():
-    with assertRaises(pf.FilterJsonError):
+    with pytest.raises(pf.FilterJsonError):
         pf.Filter("{}")
 
 def test_filter_empty_rules_json(setup):
