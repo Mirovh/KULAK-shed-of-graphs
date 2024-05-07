@@ -1,0 +1,9 @@
+{
+    "rules": [
+        {
+            "rule": "max",
+            "count": 3,
+            "degrees": [2]
+        }
+    ]
+}
