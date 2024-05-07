@@ -8,15 +8,15 @@ import pytest
 
 @pytest.fixture
 def setup():
-    with open("src/test/resources/RuleMax.json", "r") as file:
+    with open("./resources/RuleMax.json", "r") as file:
         filterMax = pf.Filter(file.read())
-    with open("src/test/resources/RuleMin.json", "r") as file:
+    with open("./resources/RuleMin.json", "r") as file:
         filterMin = pf.Filter(file.read())
-    with open("src/test/resources/RuleOnly.json", "r") as file:
+    with open("./resources/RuleOnly.json", "r") as file:
         filterOnly = pf.Filter(file.read())
-    with open("src/test/resources/RuleExact.json", "r") as file:
+    with open("./resources/RuleExact.json", "r") as file:
         filterExact = pf.Filter(file.read())
-    with open("src/test/resources/RuleCombination.json", "r") as file:
+    with open("./resources/RuleCombination.json", "r") as file:
         filterCombination = pf.Filter(file.read())
     graph2 = nx.MultiGraph()
     graph2.add_node(1)
