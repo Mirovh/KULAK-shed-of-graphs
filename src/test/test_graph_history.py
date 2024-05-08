@@ -1,9 +1,8 @@
 import sys, os
 import pytest
-
+import networkx as nx
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'app'))
 import GraphHistory
-
 @pytest.fixture
 def setup():
     gh = GraphHistory.GraphHistory('testPath')
