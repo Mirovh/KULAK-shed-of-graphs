@@ -1,6 +1,6 @@
 import sys, os
 import pytest
-import networkx as nx
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'app'))
 import GraphHistory
 
@@ -21,7 +21,7 @@ def testAddGraph(setup):
     graph = nx.Graph()
     gh.addGraph(graph, 'filter')
     assert len(gh.history) == 1
-    assert eval(gh.history[0])['graph'] == graph
+    assert eval(gh.history[0])['graph'] == list(graph.edges())
 
 def testSaveAndLoadHistory(setup):
     gh = setup
@@ -32,7 +32,7 @@ def testSaveAndLoadHistory(setup):
     gh.history.clear()
     gh.loadHistory()
     assert len(gh.history) == 1
-    assert eval(gh.history[0])['graph'] == graph
+    assert eval(gh.history[0])['graph'] == list(graph.edges())
 
 def testSaveAndLoadMultipleGraphs(setup):
     gh = setup
@@ -45,8 +45,8 @@ def testSaveAndLoadMultipleGraphs(setup):
     gh.history.clear()
     gh.loadHistory()
     assert len(gh.history) == 2
-    assert eval(gh.history[0])['graph'] == graph1
-    assert eval(gh.history[1])['graph'] == graph2
+    assert eval(gh.history[0])['graph'] == list(graph1.edges())
+    assert eval(gh.history[1])['graph'] == list(graph2.edges())
 
 def testFilename(setup):
     gh = setup
@@ -54,4 +54,5 @@ def testFilename(setup):
 
 def testFileLocation():
     assert os.path.exists('testPath')
+
 
