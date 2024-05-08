@@ -4,8 +4,10 @@ from plantriFilter import Filter
 from GraphHistory import GraphHistory
 import sys
 import networkx as nx
+import os
 
 def main():
+
 
     ########################################
     #   Argument parsing
@@ -25,7 +27,10 @@ def main():
         if args.image_format not in allowed_formats:
             raise ValueError(f"Image format must be one of {allowed_formats}")
         def draw(graph, id):
-            draw_graph(graph, "src/app/" + str(args.image_folder) + "/graph" + str(id) + ".png", args.image_format)
+            if os.environ.get('DOCKER_CONTAINER') is not None:
+                draw_graph(graph, os.environ.get('SOG_IMG_PATH') + "/graph" + str(id) + ".png", args.image_format)
+            else:
+                draw_graph(graph, "src/app/" + str(args.image_folder) + "/graph" + str(id) + ".png", args.image_format)
     else:
         def draw(graph, id):
             pass

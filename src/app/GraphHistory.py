@@ -1,10 +1,14 @@
 import pickle
 import time
 from collections import deque
+import os
 
 
 class GraphHistory:
     def __init__(self, path='src/app/history/history.pkl'):
+        # Check for an environment variable to override the default path
+        if 'SOG_HISTORY_PATH' in os.environ:
+            path = os.environ['SOG_HISTORY_PATH'] + '/history.pkl'
         self.pathName = path
         self.inputCount = 0
         self.outputCount = 0
