@@ -29,10 +29,11 @@ class GraphHistory:
         self.saveHistory()
 
     def saveHistory(self):
-        with open(self.pathName, 'a') as f:
+        with open(self.pathName, 'w') as f:
             for graph in self.history:
                 line = f"{time.time()}\t{len(self.history)}\t{len(self.history)}\t{self.filterString}\t{graph}\n"
                 f.write(line)
+
 
     def loadHistory(self):
         with open(self.pathName, 'r') as f:
