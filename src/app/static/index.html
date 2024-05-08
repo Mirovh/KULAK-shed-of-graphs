@@ -88,7 +88,7 @@
             object-fit: contain;
         }
 
-        p {
+        td p {
             position: absolute;
             bottom: 0;
             left: 0;
@@ -144,10 +144,14 @@
         </div>
         <div style="width: 40%;">
             <form id="graphForm">
-                <input id="orderInput" type="text" placeholder="4">
+                <input id="orderInput" type="text" placeholder="6">
                 <input id="filterInput" type="text" placeholder="Maximum 2 nodes with degree 2 or 3">
+                <input id="minDegreeInput" type="text" placeholder="3">
                 <button type="submit">Submit</button>
             </form>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <p id="status">placeholder</p>
+            </div>
         </div>
     </div>
     <script src="/mainScript"></script>

@@ -44,28 +44,42 @@ async function fetchAndDisplayGraphs() {
     }
 }
 
+function ChangeStatus(status) {
+    var statusElement = document.getElementById("status");
+    statusElement.innerHTML = status;
+}
+
 window.onload = fetchAndDisplayGraphs;
 
 document.addEventListener("DOMContentLoaded", function() {
-    // when clicking the reload button, fetch and display graphs
-    document.getElementById("reloadButton").addEventListener("click", fetchAndDisplayGraphs);
-
     // handle form submit
     document.getElementById('graphForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
         var input1 = document.getElementById('orderInput').value;
         var input2 = document.getElementById('filterInput').value;
+        var input3 = document.getElementById('minDegreeInput').value;
+
+        ChangeStatus("Handling request...");
 
         fetch('/filter', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ "order": input1, "filter": input2 }),
+            body: JSON.stringify({ "order": input1, "filter": input2, "minDegree": input3 }),
         })
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => {
+            if (data.success) {
+                ChangeStatus("Success");
+                // fetch and display new graphs
+                fetchAndDisplayGraphs();
+            } else {
+                console.error('Error processing request');
+                ChangeStatus("Error processing request");
+            }
+        })
         .catch((error) => {
             console.error('Error:', error);
         });
