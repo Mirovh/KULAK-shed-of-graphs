@@ -2,6 +2,7 @@ import flask
 from GraphHistory import GraphHistory
 from drawGraph import draw_graph
 import subprocess
+import os
 
 print('Starting server...', flush=True)
 
@@ -14,6 +15,7 @@ def main():
     # Redirect root to index
     @app.route('/')
     def root():
+        print('redirecting to index', flush=True)
         return flask.redirect(flask.url_for('index'))
 
     # Serve index.html using Flask at index endpoint
@@ -51,9 +53,15 @@ def main():
         id = filename
         if len(gh.history) > int(id):
             graph = gh.history[int(id)]['graph']
-            draw_graph(graph, 'src/app/history/images/graph' + id + '.png', 'png')
-            print('looking for image at history/images/graph' + id + '.png')
-            return flask.send_from_directory('history/images', 'graph' + id + '.png')
+            # Check for a path to override the default path
+            if 'SOG_IMG_PATH' in os.environ:
+                path = os.environ['SOG_IMG_PATH']
+                path2 = path
+            else:
+                path = 'src/app/history/images'
+                path2 = 'history/images'
+            draw_graph(graph, path + '/graph' + id + '.png', 'png')
+            return flask.send_from_directory(path2, 'graph' + id + '.png')
         else:
             # return a 404 error
             return flask.abort(404)
@@ -81,8 +89,13 @@ def main():
         # get the filter from the request data
         filter = data['filter']
         # Run the plantri command and pipe the output to the main.py script
-        process1 = subprocess.Popen(['plantri', '-g', '-p', str(order)], stdout=subprocess.PIPE)
-        process2 = subprocess.Popen(['python3', 'src/app/main.py', '--image_format', 'png', '--image_folder', 'history/images', '--filter_string', str(filter)], stdin=process1.stdout, stdout=subprocess.PIPE)
+        # Check if running in container
+        if os.environ.get('DOCKER_CONTAINER') is not None:
+            process1 = subprocess.Popen(['plantri', '-g', '-p', str(order)], stdout=subprocess.PIPE)
+            process2 = subprocess.Popen(['python3', 'main.py', '--image_format', 'png', '--image_folder', os.environ.get('SOG_IMG_PATH'), '--filter_string', str(filter)], stdin=process1.stdout, stdout=subprocess.PIPE)
+        else:
+            process1 = subprocess.Popen(['plantri', '-g', '-p', str(order)], stdout=subprocess.PIPE)
+            process2 = subprocess.Popen(['python3', 'src/app/main.py', '--image_format', 'png', '--image_folder', 'history/images', '--filter_string', str(filter)], stdin=process1.stdout, stdout=subprocess.PIPE)
         for line in iter(process2.stdout.readline, b''):
             print(line.decode(), end='')
         print(f"Handled filter request with order {order} and filter {filter}")
@@ -90,7 +103,7 @@ def main():
         return flask.jsonify({"success": True})
 
     # Start the server
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
 
 if __name__ == '__main__':
     main()
