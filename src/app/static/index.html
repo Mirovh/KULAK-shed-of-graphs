@@ -55,6 +55,44 @@
         p {
             height: 20%;
         } */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+        * {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            img {
+                -webkit-filter: invert(1);
+                filter: invert(1);
+            }
+            h1, p, td, label, li {
+                color: white;
+            }
+            input::placeholder {
+                color: #ccc;
+            }
+            table {
+                border-color: white;
+            }
+            td {
+                background-color: #252525;
+            }
+            td p {
+                color: #ccc;
+            }
+            body {
+                background-color: #252525;
+            }
+            input, button {
+                background-color: #252525;
+                color: white;
+            }
+            #header {
+                background-color: #353535;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            }
+        }
 
         body, html {
             margin: 0;
@@ -98,61 +136,98 @@
             font-size: 14px;
             overflow: hidden;
         }
+
+        form {
+            font-size: calc(0.7vw + 0.7vh);
+        }
+
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+
     </style>
 </head>
 <body>
-    <div style="height: 7vh;">
-        <h1>Frontend</h1>
+    <div id="header" style="display: flex; height: 7vh; justify-content: center; align-items: center; margin-bottom: 2vh;">
+        <h1>Shed Of Graphs</h1>
     </div>
-    <div style="display: flex; height: 91vh;">
+    <div style="display: flex; height: 88vh;">
         <div style="width: 60%; display: flex; flex-direction: column;">
             <div style="height:90%;">
                 <table id="graphTable">
                     <tr>
-                        <td id="graph1"><p></p><img src="" alt="element1"></td>
-                        <td id="graph2"><p></p><img src="" alt="element2"></td>
-                        <td id="graph3"><p></p><img src="" alt="element3"></td>
-                        <td id="graph4"><p></p><img src="" alt="element4"></td>
-                        <td id="graph5"><p></p><img src="" alt="element5"></td>
+                        <td id="graph1"><p></p><img src=""></td>
+                        <td id="graph2"><p></p><img src=""></td>
+                        <td id="graph3"><p></p><img src=""></td>
+                        <td id="graph4"><p></p><img src=""></td>
+                        <td id="graph5"><p></p><img src=""></td>
                     </tr>
                     <tr>
-                        <td id="graph6"><p></p><img src="" alt="element6"></td>
-                        <td id="graph7"><p></p><img src="" alt="element7"></td>
-                        <td id="graph8"><p></p><img src="" alt="element8"></td>
-                        <td id="graph9"><p></p><img src="" alt="element9"></td>
-                        <td id="graph10"><p></p><img src="" alt="element10"></td>
+                        <td id="graph6"><p></p><img src=""></td>
+                        <td id="graph7"><p></p><img src=""></td>
+                        <td id="graph8"><p></p><img src=""></td>
+                        <td id="graph9"><p></p><img src=""></td>
+                        <td id="graph10"><p></p><img src=""></td>
                     </tr>
                     <tr>
-                        <td id="graph11"><p></p><img src="" alt="element11"></td>
-                        <td id="graph12"><p></p><img src="" alt="element12"></td>
-                        <td id="graph13"><p></p><img src="" alt="element13"></td>
-                        <td id="graph14"><p></p><img src="" alt="element14"></td>
-                        <td id="graph15"><p></p><img src="" alt="element15"></td>
+                        <td id="graph11"><p></p><img src=""></td>
+                        <td id="graph12"><p></p><img src=""></td>
+                        <td id="graph13"><p></p><img src=""></td>
+                        <td id="graph14"><p></p><img src=""></td>
+                        <td id="graph15"><p></p><img src=""></td>
                     </tr>
                     <tr>
-                        <td id="graph16"><p></p><img src="" alt="element16"></td>
-                        <td id="graph17"><p></p><img src="" alt="element17"></td>
-                        <td id="graph18"><p></p><img src="" alt="element18"></td>
-                        <td id="graph19"><p></p><img src="" alt="element19"></td>
-                        <td id="graph20"><p></p><img src="" alt="element20"></td>
+                        <td id="graph16"><p></p><img src=""></td>
+                        <td id="graph17"><p></p><img src=""></td>
+                        <td id="graph18"><p></p><img src=""></td>
+                        <td id="graph19"><p></p><img src=""></td>
+                        <td id="graph20"><p></p><img src=""></td>
                     </tr>
                 </table>
             </div>
             <div style="display: flex; justify-content: center; align-items: center; height: 10%;">
-                <button id="reloadButton" style="width: 20vw; height: 5vh;">Reload Graph History</button>
+                <button id="reloadButton" style="width: 20vw; height: 5vh; font-size: calc(0.7vw + 0.7vh); box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.75); background-color: #353535;">Reload Graph History</button>
             </div>
         </div>
-        <div style="width: 40%;">
-            <form id="graphForm">
+        <div style="width: 40%; margin:40px;">
+            <div style="padding: 20px; margin-bottom: 20px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7); background-color: #353535; font-size: calc(0.7vh + 0.7vw);">
+                <p>
+                    In the form below you can submit a prompt to generate and filter a set of graphs. Here is what each field does:
+                    <ul>
+                        <li>Order: The number of nodes in the graph.</li>
+                        <li>Filter: A filter to apply to the generated graphs. The filter is a string that can contain the following:
+                            <ul>
+                                <li>The maximum number of nodes with a certain degree. For example, "Maximum 2 vertices with degree 2 or 3".</li>
+                                <li>The minimum number of nodes with a certain degree. For example, "Minimum 3 vertices with degree 4".</li>
+                                <li>The exact number of nodes with a certain degree. For example, "Exactly 4 vertices with degree 3".</li>
+                                <li>Only graphs where very node has a certain degree. For example, "Only vertices with degree 3".</li>
+                            </ul>
+                        </li>
+                        <li>Minimum Degree: The minimum degree of the nodes in the graph. (3 by default, low numbers combined with high orders greatly affect performance)</li>
+                    </ul>
+                </p>
+            </div>
+
+            <form id="graphForm" style="display: flex; flex-direction: column; gap: 10px;">
+                <label for="orderInput">Order:</label>
                 <input id="orderInput" type="text" placeholder="6">
+
+                <label for="filterInput">Filter:</label>
                 <input id="filterInput" type="text" placeholder="Maximum 2 nodes with degree 2 or 3">
+
+                <label for="minDegreeInput">Minimum Degree:</label>
                 <input id="minDegreeInput" type="text" placeholder="3">
+
                 <button type="submit">Submit</button>
             </form>
             <div style="display: flex; justify-content: center; align-items: center;">
-                <p id="status">placeholder</p>
+                <p id="status">Please enter a request.</p>
             </div>
         </div>
+    </div>
+    <div style="height: 3vh; text-align: right; margin-right: 10px;">
+        <p id="createdBy">Created by <a href="https://github.com/LeMagicMan">@BenDemets</a>, <a href="https://github.com/Mirovh">@Simonvdp</a> and <a href="https://github.com/Mirovh">@Mirovh</a></p>
     </div>
     <script src="/mainScript"></script>
 </body>
