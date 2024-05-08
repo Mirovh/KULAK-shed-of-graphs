@@ -1,11 +1,13 @@
 import time
 from collections import deque
+import networkx as nx 
 
 class GraphHistory:
     def __init__(self, path):
         self.pathName = path
         self.inputCount = 0
         self.outputCount = 0
+        self.filterString = ''
         try:
             with open(self.pathName, 'r') as f:
                 self.history = deque(f.readlines(), maxlen=20)
@@ -21,7 +23,7 @@ class GraphHistory:
             'inputCount': self.inputCount,
             'outputCount': self.outputCount,
             'filterUsed': filterUsed,
-            'graph': graph
+            'graph': list(graph.edges())
         }
         self.history.append(str(graphData))
         self.saveHistory()
@@ -32,10 +34,10 @@ class GraphHistory:
                 line = f"{time.time()}\t{len(self.history)}\t{len(self.history)}\t{self.filterString}\t{graph}\n"
                 f.write(line)
 
-
     def loadHistory(self):
         with open(self.pathName, 'r') as f:
             self.history = deque(f.readlines(), maxlen=20)
+
 
 
 
