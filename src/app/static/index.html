@@ -3,9 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <title>Lorem Ipsum</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
+    <link rel="manifest" href="/static/icons/site.webmanifest">
+    <link rel="shortcut icon" href="/static/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/static/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        /* #graphTable td {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 20%;
+            position: relative;
+        }
+
+        #graphTable img {
+            max-width: 100%;
+            max-height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            object-fit: contain;
+        }
+
+        #graphTable img {
+            width: 100%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        body, h1, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            padding: 20px;
+        }
+
+        button {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        p {
+            height: 20%;
+        } */
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            top: 0;
+            min-height: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin: auto;
+        }
+
+        td {
+            width: 20%;
+            position: relative;
+            padding: 0;
+            vertical-align: top;
+            border: 1px solid black;
+            height: 25%;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        p {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            padding: 5px;
+            font-size: 14px;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
-    <h1>Frontend</h1>
-    <p>Frontend content goes here...</p>
+    <div style="height: 7vh;">
+        <h1>Frontend</h1>
+    </div>
+    <div style="display: flex; height: 91vh;">
+        <div style="width: 60%; display: flex; flex-direction: column;">
+            <div style="height:90%;">
+                <table id="graphTable">
+                    <tr>
+                        <td id="graph1"><p></p><img src="" alt="element1"></td>
+                        <td id="graph2"><p></p><img src="" alt="element2"></td>
+                        <td id="graph3"><p></p><img src="" alt="element3"></td>
+                        <td id="graph4"><p></p><img src="" alt="element4"></td>
+                        <td id="graph5"><p></p><img src="" alt="element5"></td>
+                    </tr>
+                    <tr>
+                        <td id="graph6"><p></p><img src="" alt="element6"></td>
+                        <td id="graph7"><p></p><img src="" alt="element7"></td>
+                        <td id="graph8"><p></p><img src="" alt="element8"></td>
+                        <td id="graph9"><p></p><img src="" alt="element9"></td>
+                        <td id="graph10"><p></p><img src="" alt="element10"></td>
+                    </tr>
+                    <tr>
+                        <td id="graph11"><p></p><img src="" alt="element11"></td>
+                        <td id="graph12"><p></p><img src="" alt="element12"></td>
+                        <td id="graph13"><p></p><img src="" alt="element13"></td>
+                        <td id="graph14"><p></p><img src="" alt="element14"></td>
+                        <td id="graph15"><p></p><img src="" alt="element15"></td>
+                    </tr>
+                    <tr>
+                        <td id="graph16"><p></p><img src="" alt="element16"></td>
+                        <td id="graph17"><p></p><img src="" alt="element17"></td>
+                        <td id="graph18"><p></p><img src="" alt="element18"></td>
+                        <td id="graph19"><p></p><img src="" alt="element19"></td>
+                        <td id="graph20"><p></p><img src="" alt="element20"></td>
+                    </tr>
+                </table>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center; height: 10%;">
+                <button id="reloadButton" style="width: 20vw; height: 5vh;">Reload Graph History</button>
+            </div>
+        </div>
+        <div style="width: 40%;">
+            <form id="graphForm">
+                <input id="orderInput" type="text" placeholder="4">
+                <input id="filterInput" type="text" placeholder="Maximum 2 nodes with degree 2 or 3">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script src="/mainScript"></script>
 </body>
 </html>

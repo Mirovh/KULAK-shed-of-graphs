@@ -4,7 +4,7 @@ from collections import deque
 
 
 class GraphHistory:
-    def __init__(self, path):
+    def __init__(self, path='src/app/history/history.pkl'):
         self.pathName = path
         self.inputCount = 0
         self.outputCount = 0
@@ -29,6 +29,7 @@ class GraphHistory:
         self.saveHistory()
 
     def saveHistory(self):
+        print('Saving history')
         with open(self.pathName, 'wb') as f:
             pickle.dump(self.history, f)
 
