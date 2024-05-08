@@ -1,7 +1,5 @@
-import pickle
 import time
 from collections import deque
-
 
 class GraphHistory:
     def __init__(self, path):
@@ -9,9 +7,9 @@ class GraphHistory:
         self.inputCount = 0
         self.outputCount = 0
         try:
-            with open(self.pathName, 'rb') as f:
-                self.history = pickle.load(f)
-        except (FileNotFoundError, EOFError, pickle.UnpicklingError):
+            with open(self.pathName, 'r') as f:
+                self.history = deque(f.readlines(), maxlen=20)
+        except (FileNotFoundError, EOFError):
             self.history = deque(maxlen=20)
 
     def addGraph(self, graph, filterUsed):
@@ -25,17 +23,19 @@ class GraphHistory:
             'filterUsed': filterUsed,
             'graph': graph
         }
-        self.history.append(graphData)
+        self.history.append(str(graphData))
         self.saveHistory()
 
     def saveHistory(self):
-        with open(self.pathName, 'wb') as f:
-            pickle.dump(self.history, f)
+        with open(self.pathName, 'a') as f:
+            for i in range(0, len(self.history), 20):
+                graphs = self.history[i:i+20]
+                line = f"{time.time()}\t{len(self.history)}\t{len(self.history)}\t{self.filterString}\t{graphs}\n"
+                f.write(line)
 
     def loadHistory(self):
-        with open(self.pathName, 'rb') as f:
-            loaded_history = pickle.load(f)
-        self.history.extend(loaded_history)
+        with open(self.pathName, 'r') as f:
+            self.history = deque(f.readlines(), maxlen=20)
 
 
 
