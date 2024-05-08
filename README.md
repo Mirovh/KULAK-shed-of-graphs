@@ -12,6 +12,11 @@
     ```bash
     make
     ```
+3. **Add the plantri file you created to your path**
+    ```bash
+    sudo nano ~/.bashrc # add the following to the end of the file: export PATH=$PATH:/path/to/the/plantri/file
+    source ~/.bashrc # applies the changes
+    ```  
 4. **Run the host-linux.sh file located in the root directory of the project**
 
 **OR**
