@@ -1,10 +1,14 @@
 import time
 from collections import deque
+import os
 import networkx as nx 
 import json
 
 class GraphHistory:
-    def __init__(self, path):
+    def __init__(self, path='src/app/history/history.pkl'):
+        # Check for an environment variable to override the default path
+        if 'SOG_HISTORY_PATH' in os.environ:
+            path = os.environ['SOG_HISTORY_PATH'] + '/history.pkl'
         self.pathName = path
         self.inputCount = 0
         self.outputCount = 0
@@ -30,6 +34,7 @@ class GraphHistory:
         self.saveHistory()
 
     def saveHistory(self):
+        print('Saving history')
         with open(self.pathName, 'w') as f:
             for graph in self.history:
                 line = f"{time.time()}\t{len(self.history)}\t{len(self.history)}\t{self.filterString}\t{graph}\n"

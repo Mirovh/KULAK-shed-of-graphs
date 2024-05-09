@@ -10,3 +10,4 @@ def draw_graph(graph, path, format):
     """
     nx.draw(graph)
     plt.savefig(path, format=format)
+    plt.clf()
