@@ -33,6 +33,17 @@ class GraphHistory:
             self.filterString = filterUsed
         else:
             self.filterString = json.dumps({'filterUsed': 'default value'})
+    
+        # Ensure all node and edge data can be serialized
+        for n, ndata in graph.nodes(data=True):
+            for key, value in ndata.items():
+                if not isinstance(value, (int, float, str)):
+                    ndata[key] = str(value)
+        for u, v, edata in graph.edges(data=True):
+            for key, value in edata.items():
+                if not isinstance(value, (int, float, str)):
+                    edata[key] = str(value)
+    
         graphData = {
             'timestamp': timestamp,
             'inputCount': self.inputCount,
@@ -42,6 +53,7 @@ class GraphHistory:
         }
         self.history.append(graphData)
         self.saveHistory()
+
 
     def saveHistory(self):
         print('Saving history')
