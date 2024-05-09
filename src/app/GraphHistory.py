@@ -50,7 +50,6 @@ class GraphHistory:
                 line = f"{graphData['timestamp']}\t{graphData['inputCount']}\t{graphData['outputCount']}\t{json.dumps(graphData['filterUsed'])}\t{json.dumps(graphData['graph'])}\n"
                 f.write(line)
 
-
     def loadHistory(self):
         with open(self.pathName, 'r') as f:
             self.history = deque(maxlen=20)
