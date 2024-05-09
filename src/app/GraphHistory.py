@@ -21,25 +21,25 @@ class GraphHistory:
             self.history = deque(maxlen=20)
 
     def addGraph(self, graph, filterUsed):
-    timestamp = time.time()
-    self.inputCount += 1
-    if isinstance(filterUsed, Filter):
-        rules = filterUsed.rules
-        filterData = {
-            'rules': rules
+        timestamp = time.time()
+        self.inputCount += 1
+        if isinstance(filterUsed, Filter):
+            rules = filterUsed.rules
+            filterData = {
+                'rules': rules
+            }
+            self.filterString = json.dumps(filterData)
+        else:
+            self.filterString = filterUsed
+        graphData = {
+            'timestamp': timestamp,
+            'inputCount': self.inputCount,
+            'outputCount': self.outputCount,
+            'filterString': self.filterString,
+            'graph': list(graph.edges())
         }
-        self.filterString = json.dumps(filterData)
-    else:
-        self.filterString = filterUsed
-    graphData = {
-        'timestamp': timestamp,
-        'inputCount': self.inputCount,
-        'outputCount': self.outputCount,
-        'filterString': self.filterString,
-        'graph': list(graph.edges())
-    }
-    self.history.append(json.dumps(graphData))
-    self.saveHistory()
+        self.history.append(json.dumps(graphData))
+        self.saveHistory()
 
 
     def saveHistory(self):
