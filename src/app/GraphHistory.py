@@ -29,17 +29,20 @@ class GraphHistory:
                 'rules': rules
             }
             self.filterString = json.dumps(filterData)
-        else:
+        elif isinstance(filterUsed, str) and 'filterUsed' in json.loads(filterUsed):
             self.filterString = filterUsed
+        else:
+            self.filterString = json.dumps({'filterUsed': 'default value'})
         graphData = {
             'timestamp': timestamp,
             'inputCount': self.inputCount,
             'outputCount': self.outputCount,
-            'filterString': self.filterString,
+            'filterUsed': self.filterString,
             'graph': list(graph.edges())
         }
         self.history.append(json.dumps(graphData))
         self.saveHistory()
+
 
 
     def saveHistory(self):
