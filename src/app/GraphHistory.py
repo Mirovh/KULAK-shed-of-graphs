@@ -55,8 +55,16 @@ class GraphHistory:
         with open(self.pathName, 'r') as f:
             self.history = deque(maxlen=20)
             for line in f.readlines():
-                graphData = json.loads(line.strip())
-                self.history.append(graphData)
+                timestamp, inputCount, outputCount, filterUsed, graph = line.strip().split('\t')
+                graphData = {
+                    'timestamp': float(timestamp),
+                    'inputCount': int(inputCount),
+                    'outputCount': int(outputCount),
+                    'filterUsed': json.loads(filterUsed),
+                    'graph': json.loads(graph)
+                }
+                self.history.append(json.dumps(graphData))
+
 
 
 
