@@ -38,7 +38,7 @@ class GraphHistory:
             'inputCount': self.inputCount,
             'outputCount': self.outputCount,
             'filterUsed': self.filterString,
-            'graph': json_graph.adjacency_data(graph)  
+            'graph': json.dumps(json_graph.adjacency_data(graph))  
         }
         self.history.append(graphData)
         self.saveHistory()
@@ -47,7 +47,7 @@ class GraphHistory:
         print('Saving history')
         with open(self.pathName, 'w') as f:
             for graphData in self.history:
-                line = f"{graphData['timestamp']}\t{graphData['inputCount']}\t{graphData['outputCount']}\t{json.dumps(graphData['filterUsed'])}\t{json.dumps(graphData['graph'])}\n"
+                line = f"{graphData['timestamp']}\t{graphData['inputCount']}\t{graphData['outputCount']}\t{json.dumps(graphData['filterUsed'])}\t{graphData['graph']}\n"
                 f.write(line)
 
     def loadHistory(self):
