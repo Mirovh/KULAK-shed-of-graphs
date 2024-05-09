@@ -18,6 +18,7 @@
     source ~/.bashrc # applies the changes
     ```  
 4. **Run the host-linux.sh file located in the root directory of the project**
+5. **You can access the site via the link provided in the console**
 
 **OR**
 
@@ -32,7 +33,7 @@
     sudo docker build --target prod -t shed-of-graphs:prod .
     sudo docker run -p {port}:5000 -v /host/backup:/backup shed-of-graphs:prod
     ```
-5. **The server is now accessible at http://localhost:8080 on your machine**
+5. **The server is now accessible at http://localhost:{port} on your machine**
 
 ## Common Issues
 - If the web interface doesn't work, try using Google Chrome as your browser.
