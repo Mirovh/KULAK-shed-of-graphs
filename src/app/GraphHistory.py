@@ -2,6 +2,7 @@ import time
 from collections import deque
 import os
 import networkx as nx 
+from networkx.readwrite import json_graph
 import json
 from plantriFilter import Filter
 
@@ -37,7 +38,7 @@ class GraphHistory:
             'inputCount': self.inputCount,
             'outputCount': self.outputCount,
             'filterUsed': self.filterString,
-            'graph': list(graph.edges())
+            'graph': json_graph.adjacency_data(graph)  # Convert the graph to adjacency data format
         }
         self.history.append(graphData)
         self.saveHistory()
@@ -59,7 +60,7 @@ class GraphHistory:
                     'inputCount': int(parts[1]),
                     'outputCount': int(parts[2]),
                     'filterUsed': json.loads(parts[3]),
-                    'graph': json.loads(parts[4])
+                    'graph': json_graph.adjacency_graph(json.loads(parts[4]))  # Convert the adjacency data back to a graph
                 }
                 self.history.append(graphData)
 
