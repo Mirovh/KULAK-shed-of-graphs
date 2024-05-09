@@ -101,7 +101,7 @@ def main():
         minDegree = data['minDegree']
         if minDegree == None:
             minDegree = 3
-        minDegreeParsed = "-c" + str(minDegree)
+        minDegreeParsed = "-c1m" + str(minDegree)
         # Run the plantri command and pipe the output to the main.py script
         # Check if running in container
         if os.environ.get('DOCKER_CONTAINER') is not None:
