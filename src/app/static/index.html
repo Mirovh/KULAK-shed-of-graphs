@@ -61,6 +61,40 @@
             font-family: 'Roboto', sans-serif;
         }
 
+        h1, p, td, label, li {
+            color: black;
+        }
+        input::placeholder {
+            color: #333;
+        }
+        table {
+            border-color: black;
+        }
+        td {
+            background-color: #E6E6E6;
+            border: 1px solid white;
+        }
+        td p {
+            color: #333;
+        }
+        body {
+            background-color: #E6E6E6;
+        }
+        input, button {
+            background-color: #E6E6E6;
+            color: black;
+        }
+        #header {
+            background-color: #D6D6D6;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        #explanation {
+            background-color: #D6D6D6;
+        }
+        #reloadButton {
+            background-color: #D6D6D6;
+        }
+
         @media (prefers-color-scheme: dark) {
             img {
                 -webkit-filter: invert(1);
@@ -77,6 +111,7 @@
             }
             td {
                 background-color: #252525;
+                border: 1px solid black;
             }
             td p {
                 color: #ccc;
@@ -91,6 +126,12 @@
             #header {
                 background-color: #353535;
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            }
+            #explanation {
+                background-color: #353535;
+            }
+            #reloadButton {
+                background-color: #353535;
             }
         }
 
@@ -115,7 +156,6 @@
             position: relative;
             padding: 0;
             vertical-align: top;
-            border: 1px solid black;
             height: 25%;
         }
 
@@ -187,11 +227,11 @@
                 </table>
             </div>
             <div style="display: flex; justify-content: center; align-items: center; height: 10%;">
-                <button id="reloadButton" style="width: 20vw; height: 5vh; font-size: calc(0.7vw + 0.7vh); box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.75); background-color: #353535;">Reload Graph History</button>
+                <button id="reloadButton" style="width: 20vw; height: 5vh; font-size: calc(0.7vw + 0.7vh); box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.75);">Reload Graph History</button>
             </div>
         </div>
         <div style="width: 40%; margin:40px;">
-            <div style="padding: 20px; margin-bottom: 20px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7); background-color: #353535; font-size: calc(0.7vh + 0.7vw);">
+            <div id="explanation" style="padding: 20px; margin-bottom: 20px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7); font-size: calc(0.7vh + 0.7vw);">
                 <p>
                     In the form below you can submit a prompt to generate and filter a set of graphs. Here is what each field does:
                     <ul>
