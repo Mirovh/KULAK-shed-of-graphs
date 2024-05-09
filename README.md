@@ -26,8 +26,8 @@
 3. **Create the '/host/backups/hist/img' directory**
 4. **Run the following commands in the the project directory with the port where you want the webinterface to be accessible**
     ```bash
-    docker build --target prod -t shed-of-graphs:prod .
-    docker run -p {port}:5000 -v /host/backup:/backup shed-of-graphs:prod
+    sudo docker build --target prod -t shed-of-graphs:prod .
+    sudo docker run -p {port}:5000 -v /host/backup:/backup shed-of-graphs:prod
     ```
 
 ## Common Issues
