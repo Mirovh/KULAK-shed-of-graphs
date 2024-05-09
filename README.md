@@ -18,7 +18,7 @@
     source ~/.bashrc # applies the changes
     ```  
 4. **Run the host-linux.sh file located in the root directory of the project**
-5. **You can access the site via the link provided in the console**
+5. **You can access the webinterface via the link provided in the console**
 
 **OR**
 
