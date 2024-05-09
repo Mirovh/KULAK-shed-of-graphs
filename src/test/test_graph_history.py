@@ -70,7 +70,6 @@ def testSaveFilterRawJson(setup):
         "degree": 3,
         "count": 1
     }
-
 def testFilename(setup):
     gh, _, _ = setup
     assert gh.pathName == 'testPath'
