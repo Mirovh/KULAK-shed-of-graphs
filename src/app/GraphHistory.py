@@ -35,7 +35,7 @@ class GraphHistory:
             'timestamp': timestamp,
             'inputCount': self.inputCount,
             'outputCount': self.outputCount,
-            'filterUsed': filterUsed,
+            'filterString': self.filterString,
             'graph': list(graph.edges())
         }
         self.history.append(json.dumps(graphData))
