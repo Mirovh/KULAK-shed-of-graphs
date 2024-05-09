@@ -27,7 +27,7 @@ def testAddGraph(setup):
     gh.addGraph(graph, filter1)
     assert len(gh.history) == 1
     assert json.loads(gh.history[0])['graph'] == list(graph.edges())
-    assert json.loads(gh.history[0])['filterUsed'] == {'rules': [{"rule": "exact", 'degree': 3, 'count': 1}]}
+    assert json.loads(json.loads(gh.history[0])['filterUsed']) == {'rules': [{"rule": "exact", 'degree': 3, 'count': 1}]}
 
 def testSaveAndLoadHistory(setup):
     gh, filter1, _ = setup
@@ -39,7 +39,7 @@ def testSaveAndLoadHistory(setup):
     gh.loadHistory()
     assert len(gh.history) == 1
     assert json.loads(gh.history[0].split('\t')[-1])['graph'] == list(graph.edges())
-    assert json.loads(gh.history[0].split('\t')[-1])['filterUsed'] == {'rules': [{"rule": "exact", 'degree': 3, 'count': 1}]}
+    assert json.loads(json.loads(gh.history[0].split('\t')[-1])['filterUsed']) == {'rules': [{"rule": "exact", 'degree': 3, 'count': 1}]}
 
 def testSaveAndLoadMultipleGraphs(setup):
     gh, filter1, filter2 = setup
@@ -54,9 +54,9 @@ def testSaveAndLoadMultipleGraphs(setup):
     assert len(gh.history) == 2
     assert json.loads(gh.history[0].split('\t')[-1])['graph'] == list(graph1.edges())
     assert json.loads(gh.history[1].split('\t')[-1])['graph'] == list(graph2.edges())
-    assert json.loads(gh.history[0].split('\t')[-1])['filterUsed'] == {'rules': [{"rule": "exact", 'degree': 3, 'count': 1}]}
-    assert json.loads(gh.history[1].split('\t')[-1])['filterUsed'] == {'rules': [{"rule": "max", 'degree': 4, 'count': 1}]}
-    
+    assert json.loads(json.loads(gh.history[0].split('\t')[-1])['filterUsed']) == {'rules': [{"rule": "exact", 'degree': 3, 'count': 1}]}
+    assert json.loads(json.loads(gh.history[1].split('\t')[-1])['filterUsed']) == {'rules': [{"rule": "max", 'degree': 4, 'count': 1}]}
+
 def saveFilterRawJson(setup):
     gh, _, _ = setup
     graph = nx.Graph()
@@ -65,7 +65,7 @@ def saveFilterRawJson(setup):
     gh.history.clear()
     gh.loadHistory()
     assert len(gh.history) == 1
-    assert json.loads(gh.history[0].split('\t')[-1])['filterUsed'] == {'rules': [{"rule": "exact", 'degree': 3, 'count': 1}]}
+    assert json.loads(json.loads(gh.history[0].split('\t')[-1])['filterUsed']) == {'rules': [{"rule": "exact", 'degree': 3, 'count': 1}]}
 
 def testFilename(setup):
     gh, _, _ = setup
@@ -73,6 +73,7 @@ def testFilename(setup):
 
 def testFileLocation(setup):
     assert os.path.exists('testPath')
+
 
 
 
