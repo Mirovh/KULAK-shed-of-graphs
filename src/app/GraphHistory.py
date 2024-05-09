@@ -15,8 +15,7 @@ class GraphHistory:
         self.outputCount = 0
         self.filterString = ''
         try:
-            with open(self.pathName, 'r') as f:
-                self.history = deque(json.load(f), maxlen=20)
+            self.loadHistory()
         except (FileNotFoundError, EOFError):
             self.history = deque(maxlen=20)
 
@@ -40,30 +39,30 @@ class GraphHistory:
             'filterUsed': self.filterString,
             'graph': list(graph.edges())
         }
-        self.history.append(json.dumps(graphData))
+        self.history.append(graphData)
         self.saveHistory()
 
     def saveHistory(self):
         print('Saving history')
         with open(self.pathName, 'w') as f:
-            for graph in self.history:
-                graphData = json.loads(graph)
-                line = f"{graphData['timestamp']}\t{graphData['inputCount']}\t{graphData['outputCount']}\t{graphData['filterUsed']}\t{json.dumps(graphData['graph'])}\n"
+            for graphData in self.history:
+                line = f"{graphData['timestamp']}\t{graphData['inputCount']}\t{graphData['outputCount']}\t{json.dumps(graphData['filterUsed'])}\t{json.dumps(graphData['graph'])}\n"
                 f.write(line)
 
     def loadHistory(self):
         with open(self.pathName, 'r') as f:
             self.history = deque(maxlen=20)
             for line in f.readlines():
-                timestamp, inputCount, outputCount, filterUsed, graph = line.strip().split('\t')
+                parts = line.strip().split('\t')
                 graphData = {
-                    'timestamp': float(timestamp),
-                    'inputCount': int(inputCount),
-                    'outputCount': int(outputCount),
-                    'filterUsed': json.loads(filterUsed),
-                    'graph': json.loads(graph)
+                    'timestamp': float(parts[0]),
+                    'inputCount': int(parts[1]),
+                    'outputCount': int(parts[2]),
+                    'filterUsed': json.loads(parts[3]),
+                    'graph': json.loads(parts[4])
                 }
-                self.history.append(json.dumps(graphData))
+                self.history.append(graphData)
+
 
 
 
