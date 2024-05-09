@@ -29,7 +29,7 @@ class GraphHistory:
                 'rules': rules
             }
             self.filterString = json.dumps(filterData)
-        elif isinstance(filterUsed, str) and 'filterUsed' in json.loads(filterUsed):
+        elif isinstance(filterUsed, str) and 'rules' in json.loads(filterUsed):
             self.filterString = filterUsed
         else:
             self.filterString = json.dumps({'filterUsed': 'default value'})
