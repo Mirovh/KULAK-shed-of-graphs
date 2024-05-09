@@ -65,12 +65,13 @@ def testSaveFilterRawJson(setup):
     gh.loadHistory()
     assert len(gh.history) == 1
     loaded_filter_data = json.loads(gh.history[0]['filterUsed'])
-    assert loaded_filter_data.get('rules', [])[0] == {
+    rules = loaded_filter_data.get('rules', [])
+    assert len(rules) > 0
+    assert rules[0] == {
         "rule": "exact",
         "degree": 3,
         "count": 1
     }
-
 def testFilename(setup):
     gh, _, _ = setup
     assert gh.pathName == 'testPath'
