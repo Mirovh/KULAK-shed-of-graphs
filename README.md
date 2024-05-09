@@ -3,7 +3,7 @@
 ## How to host server
 ### Windows
 1. **Install and configure wsl**
-2. **Follow the steps for hosting on Linux**
+2. **Follow the steps for hosting on Ubuntu**
 
 ### Ubuntu
 1. **Install python**
