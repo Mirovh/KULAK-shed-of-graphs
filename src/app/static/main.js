@@ -1,7 +1,16 @@
+var fullInfoGraph = false;
+
 async function fetchAndDisplayGraphs() {
     for (let x = 0; x < 20; x++) {
         // get data from server
-        const txtResponse = await fetch(`/history/${x}`);
+        const txtResponse = await fetch(`/history/${x}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ "fullinfostring": fullInfoGraph.toString() }),
+        });
+        console.log(fullInfoGraph.toString());
         // check if we got a 404
         if (txtResponse.status === 404) {
             // if we did, we can stop here because that means we reached the end of the history
@@ -52,6 +61,16 @@ function ChangeStatus(status) {
 window.onload = fetchAndDisplayGraphs;
 
 document.addEventListener("DOMContentLoaded", function() {
+    // Get the toggle element
+    var toggle = document.getElementById('fullStringToggle');
+
+    // Add an event listener for the change event
+    toggle.addEventListener('change', function() {
+        // Update the fullInfoGraph variable
+        console.log("Toggled");
+        fullInfoGraph = !this.checked;
+    });
+
     // handle form submit
     document.getElementById('graphForm').addEventListener('submit', function(event) {
         event.preventDefault();
@@ -76,11 +95,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 // fetch and display new graphs
                 fetchAndDisplayGraphs();
             } else {
-                console.error('Error processing request');
-                ChangeStatus("Error processing request");
+                console.error('Server returned error response.');
+                ChangeStatus("Server returned error response");
             }
         })
         .catch((error) => {
+            ChangeStatus("Error processing request");
             console.error('Error:', error);
         });
     });

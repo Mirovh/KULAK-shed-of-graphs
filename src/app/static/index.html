@@ -254,10 +254,15 @@
                 <input id="orderInput" type="text" placeholder="6">
 
                 <label for="filterInput">Filter:</label>
-                <input id="filterInput" type="text" placeholder="Maximum 2 nodes with degree 2 or 3">
+                <input id="filterInput" type="text" placeholder="Maximum 2 vertices with degree 2 or 3">
 
                 <label for="minDegreeInput">Minimum Degree:</label>
                 <input id="minDegreeInput" type="text" placeholder="3">
+
+                <div style="display: flex; align-items: center;">
+                    <input id="fullStringToggle" type="checkbox" checked>
+                    <label for="fullStringToggle">Human readable graph string</label>
+                </div>
 
                 <button type="submit">Submit</button>
             </form>

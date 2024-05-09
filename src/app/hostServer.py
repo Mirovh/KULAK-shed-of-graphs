@@ -3,6 +3,7 @@ from GraphHistory import GraphHistory
 from drawGraph import draw_graph
 import subprocess
 import os
+import networkx as nx
 
 print('Starting server...', flush=True)
 
@@ -66,13 +67,22 @@ def main():
             # return a 404 error
             return flask.abort(404)
         
-    @app.route('/history/<path:filename>')
+    @app.route('/history/<path:filename>', methods=['POST'])
     def serve_graph(filename):
+        # get the request data
+        data = flask.request.get_json()
+        # get the value for fullinfostring
+        fullinfostring = data['fullinfostring']
+        # If the fullinfostring is true, return the full history
         # get the graph with the id filename
         gh.loadHistory()
         id = filename
         if len(gh.history) > int(id):
             graph = gh.history[int(id)]['graph']
+            if isinstance(graph, nx.Graph) and fullinfostring == 'true':
+                # Convert the graph to a string representation
+                graph = nx.to_dict_of_dicts(graph)
+                print('serving graph: ' + str(graph), flush=True)
             # send graph as json
             return flask.jsonify({"graphString": str(graph), "success": True})
         else:
