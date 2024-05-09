@@ -64,7 +64,10 @@ def testSaveFilterRawJson(setup):
     gh.history.clear()
     gh.loadHistory()
     assert len(gh.history) == 1
+    print(gh.history[0]['filterUsed'], flush=True)
     loaded_filter_data = json.loads(gh.history[0]['filterUsed'])
+    print(loaded_filter_data, flush=True)
+    print(loaded_filter_data['rules'][0], flush=True)
     assert loaded_filter_data['rules'][0] == {
         "rule": "exact",
         "degree": 3,
