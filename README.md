@@ -23,7 +23,7 @@
 
 1. **Install docker cli**
 2. **Download the project to your machine**
-3. **Create the '/host/backups/hist/img' directory**
+3. **Create the '/host/backup/hist/img' directory**
 4. **Run the following commands in the the project directory with the port where you want the webinterface to be accessible**
     ```bash
     sudo docker build --target prod -t shed-of-graphs:prod .
