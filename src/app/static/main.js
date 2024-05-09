@@ -69,6 +69,11 @@ document.addEventListener("DOMContentLoaded", function() {
         fullInfoGraph = !this.checked;
     });
 
+    // Add a click event listener to the refresh button
+    document.getElementById('refreshButton').addEventListener('click', function() {
+        fetchAndDisplayGraphs();
+    });
+
     // handle form submit
     document.getElementById('graphForm').addEventListener('submit', function(event) {
         event.preventDefault();
