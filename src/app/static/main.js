@@ -10,7 +10,6 @@ async function fetchAndDisplayGraphs() {
             },
             body: JSON.stringify({ "fullinfostring": fullInfoGraph.toString() }),
         });
-        console.log(fullInfoGraph.toString());
         // check if we got a 404
         if (txtResponse.status === 404) {
             // if we did, we can stop here because that means we reached the end of the history
@@ -67,7 +66,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Add an event listener for the change event
     toggle.addEventListener('change', function() {
         // Update the fullInfoGraph variable
-        console.log("Toggled");
         fullInfoGraph = !this.checked;
     });
 
