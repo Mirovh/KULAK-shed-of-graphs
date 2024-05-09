@@ -4,6 +4,7 @@ from drawGraph import draw_graph
 import subprocess
 import os
 import networkx as nx
+from plantriFilter import Filter
 
 print('Starting server...', flush=True)
 
@@ -97,10 +98,35 @@ def main():
         # get the filter from the request data
         filter = data['filter']
         minDegree = data['minDegree']
+        
+        # Before running, check the following things
+        # 1. Check if the filter is valid
+        try:
+            Filter(str(filter))
+        except Exception as e:
+            print(e, flush=True)
+            return flask.jsonify({"success": False, "error": str(e)})
+        # 2. Check if the order is valid (must be a positive integer < 14)
+        try:
+            order = int(order)
+            assert order >= 1
+            assert order < 14
+        except Exception as e:
+            print("ordererror: " + str(order), flush=True)
+            return flask.jsonify({"success": False, "error": "Invalid order. Must be a positive integer < 14."})
+        # 3. Check if the minDegree is valid (must be a positive integer or None)
+        try:
+            if minDegree != None:
+                minDegree = int(minDegree)
+                assert minDegree >= 0
+        except Exception as e:
+            print("mindegreeerror: " + str(minDegree), flush=True)
+            return flask.jsonify({"success": False, "error": "Invalid minDegree. Must be a positive integer or None."})
+        
+        # Run the plantri command and pipe the output to the main.py script
         if minDegree == None:
             minDegree = 3
         minDegreeParsed = "-c1m" + str(minDegree)
-        # Run the plantri command and pipe the output to the main.py script
         # Check if running in container
         if os.environ.get('DOCKER_CONTAINER') is not None:
             process1 = subprocess.Popen(['plantri', '-g', '-p', minDegreeParsed, str(order)], stdout=subprocess.PIPE)
