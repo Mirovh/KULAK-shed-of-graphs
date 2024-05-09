@@ -24,10 +24,7 @@ class GraphHistory:
         timestamp = time.time()
         self.inputCount += 1
         if isinstance(filterUsed, Filter):
-            rules = filterUsed.rules
-            filterData = {
-                'rules': rules
-            }
+            filterData = filterUsed.to_dict()
             self.filterString = json.dumps(filterData)
         else:
             self.filterString = filterUsed
