@@ -58,12 +58,14 @@ def testSaveAndLoadMultipleGraphs(setup):
 def testSaveFilterRawJson(setup):
     gh, _, _ = setup
     graph = nx.Graph()
-    gh.addGraph(graph, '{"rules": [{"rule": "exact", "degree": 3, "count": 1}]}')
+    filter_data = '{"rules": [{"rule": "exact", "degree": 3, "count": 1}]}'
+    gh.addGraph(graph, filter_data)
     gh.saveHistory()
     gh.history.clear()
     gh.loadHistory()
     assert len(gh.history) == 1
-    assert json.loads(json.loads(gh.history[0]['filterUsed'])['rules'][0]) == {
+    loaded_filter_data = json.loads(gh.history[0]['filterUsed'])
+    assert loaded_filter_data['rules'][0] == {
         "rule": "exact",
         "degree": 3,
         "count": 1
