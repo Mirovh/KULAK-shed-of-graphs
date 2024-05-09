@@ -3,12 +3,13 @@ from collections import deque
 import os
 import networkx as nx 
 import json
+from plantriFilter import Filter
 
 class GraphHistory:
-    def __init__(self, path='src/app/history/history.pkl'):
+    def __init__(self, path='src/app/history/history.txt'):
         # Check for an environment variable to override the default path
         if 'SOG_HISTORY_PATH' in os.environ:
-            path = os.environ['SOG_HISTORY_PATH'] + '/history.pkl'
+            path = os.environ['SOG_HISTORY_PATH'] + '/history.txt'
         self.pathName = path
         self.inputCount = 0
         self.outputCount = 0
@@ -22,7 +23,14 @@ class GraphHistory:
     def addGraph(self, graph, filterUsed):
         timestamp = time.time()
         self.inputCount += 1
-        self.filterString = filterUsed
+        if isinstance(filterUsed, Filter):
+            rules = filterUsed.rules
+            filterData = {
+                'rules': rules
+            }
+            self.filterString = json.dumps(filterData)
+        else:
+            self.filterString = filterUsed
         graphData = {
             'timestamp': timestamp,
             'inputCount': self.inputCount,
