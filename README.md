@@ -5,7 +5,7 @@
 1. **Install and configure wsl**
 2. **Follow the steps for hosting on Linux**
 
-### Linux
+### Ubuntu
 1. **Install python**
 2. **Download the project to your machine**
 3. **Open a terminal in the src/app/plantri54 directory inside the project and run the following command**
