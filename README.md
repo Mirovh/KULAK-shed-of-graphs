@@ -38,19 +38,23 @@
 
 ## Common Issues
 - If the web interface doesn't work, try using Google Chrome as your browser.
+- If some scripts dont run on linux you might have to change the line endings from CRLF to LF
+    ```bash
+    dos2unix <file>
+    ```
 
 
 ## How to setup dev environment
 1. **Install python**
 2. **Install github cli**
 3. **Authenticate using github cli**
-```bash
-gh auth login
-```
+    ```bash
+    gh auth login
+    ```
 4. **Clone the repository to your machine**
-```bash
-gh repo clone Mirovh/shed-of-graphs
-```
+    ```bash
+    gh repo clone Mirovh/shed-of-graphs
+    ```
 5. **Execute the setup dev file for your OS**
 6. **Open the shed-of-graphs root folder with vs code**
 7. **When modifying requirements-dev.txt, rerun the setup dev file to rebuild the dev virtual environment. This updates the packages accessible to the vs code IDE automatically too**
