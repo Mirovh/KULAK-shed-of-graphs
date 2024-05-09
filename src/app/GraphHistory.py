@@ -16,7 +16,7 @@ class GraphHistory:
         self.filterString = ''
         try:
             with open(self.pathName, 'r') as f:
-                self.history = deque(f.readlines(), maxlen=20)
+                self.history = deque(json.load(f), maxlen=20)
         except (FileNotFoundError, EOFError):
             self.history = deque(maxlen=20)
 
@@ -43,18 +43,20 @@ class GraphHistory:
         self.history.append(json.dumps(graphData))
         self.saveHistory()
 
-
-
     def saveHistory(self):
         print('Saving history')
         with open(self.pathName, 'w') as f:
             for graph in self.history:
-                line = f"{time.time()}\t{len(self.history)}\t{len(self.history)}\t{self.filterString}\t{graph}\n"
+                graphData = json.loads(graph)
+                line = f"{graphData['timestamp']}\t{graphData['inputCount']}\t{graphData['outputCount']}\t{graphData['filterUsed']}\t{json.dumps(graphData['graph'])}\n"
                 f.write(line)
 
     def loadHistory(self):
         with open(self.pathName, 'r') as f:
-            self.history = deque(f.readlines(), maxlen=20)
+            self.history = deque(maxlen=20)
+            for line in f.readlines():
+                graphData = json.loads(line.strip())
+                self.history.append(graphData)
 
 
 
