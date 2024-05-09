@@ -37,7 +37,6 @@ def main():
     @app.route('/static/icons/<path:filename>')
     def serve_favicon(filename):
         # Check if the user's browser prefers dark mode
-        print(flask.request.headers)
         prefers_dark_mode = flask.request.headers.get('Sec-CH-Prefers-Color-Scheme') == 'dark'
         
         # Determine the appropriate favicon filename based on the user's preference
@@ -82,7 +81,6 @@ def main():
             if isinstance(graph, nx.Graph) and fullinfostring == 'true':
                 # Convert the graph to a string representation
                 graph = nx.to_dict_of_dicts(graph)
-                print('serving graph: ' + str(graph), flush=True)
             # send graph as json
             return flask.jsonify({"graphString": str(graph), "success": True})
         else:
@@ -112,8 +110,6 @@ def main():
             process2 = subprocess.Popen(['python3', 'src/app/main.py', '--image_format', 'png', '--image_folder', 'history/images', '--filter_string', str(filter)], stdin=process1.stdout, stdout=subprocess.PIPE)
         for line in iter(process2.stdout.readline, b''):
             print(line.decode(), end='')
-        print(f"Handled filter request with order {order} and filter {filter}")
-        print('done')
         return flask.jsonify({"success": True})
 
     # Start the server

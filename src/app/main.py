@@ -66,7 +66,6 @@ def main():
             print(graph)
             gh.addGraph(graph, filter)
             draw(graph, 0)
-            print(f"Graph passed filter: {graph}")
 
 if __name__ == "__main__":
     main()

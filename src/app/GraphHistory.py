@@ -44,7 +44,6 @@ class GraphHistory:
         self.saveHistory()
 
     def saveHistory(self):
-        print('Saving history')
         with open(self.pathName, 'w') as f:
             for graphData in self.history:
                 line = f"{graphData['timestamp']}\t{graphData['inputCount']}\t{graphData['outputCount']}\t{json.dumps(graphData['filterUsed'])}\t" + "{ \"nxGraph\": " + json.dumps(json_graph.adjacency_data(graphData['graph'])) + " }\n"
