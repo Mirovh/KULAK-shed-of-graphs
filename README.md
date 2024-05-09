@@ -30,6 +30,10 @@
     docker run -p {port}:5000 -v /host/backup:/backup shed-of-graphs:prod
     ```
 
+## Common Issues
+- If the web interface doesn't work, try using Google Chrome as your browser.
+
+
 ## How to setup dev environment
 1. **Install python**
 2. **Install github cli**

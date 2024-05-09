@@ -88,13 +88,17 @@ def main():
         order = data['order']
         # get the filter from the request data
         filter = data['filter']
+        minDegree = data['minDegree']
+        if minDegree == None:
+            minDegree = 3
+        minDegreeParsed = "-c" + str(minDegree)
         # Run the plantri command and pipe the output to the main.py script
         # Check if running in container
         if os.environ.get('DOCKER_CONTAINER') is not None:
-            process1 = subprocess.Popen(['plantri', '-g', '-p', str(order)], stdout=subprocess.PIPE)
+            process1 = subprocess.Popen(['plantri', '-g', '-p', minDegreeParsed, str(order)], stdout=subprocess.PIPE)
             process2 = subprocess.Popen(['python3', 'main.py', '--image_format', 'png', '--image_folder', os.environ.get('SOG_IMG_PATH'), '--filter_string', str(filter)], stdin=process1.stdout, stdout=subprocess.PIPE)
         else:
-            process1 = subprocess.Popen(['plantri', '-g', '-p', str(order)], stdout=subprocess.PIPE)
+            process1 = subprocess.Popen(['plantri', '-g', '-p', minDegreeParsed, str(order)], stdout=subprocess.PIPE)
             process2 = subprocess.Popen(['python3', 'src/app/main.py', '--image_format', 'png', '--image_folder', 'history/images', '--filter_string', str(filter)], stdin=process1.stdout, stdout=subprocess.PIPE)
         for line in iter(process2.stdout.readline, b''):
             print(line.decode(), end='')
