@@ -32,6 +32,7 @@
     sudo docker build --target prod -t shed-of-graphs:prod .
     sudo docker run -p {port}:5000 -v /host/backup:/backup shed-of-graphs:prod
     ```
+5. **The server is now accessible at http://localhost:8080 on your machine
 
 ## Common Issues
 - If the web interface doesn't work, try using Google Chrome as your browser.
