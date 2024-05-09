@@ -33,33 +33,21 @@ class GraphHistory:
             self.filterString = filterUsed
         else:
             self.filterString = json.dumps({'filterUsed': 'default value'})
-    
-        # Ensure all node and edge data can be serialized
-        for n, ndata in graph.nodes(data=True):
-            for key, value in ndata.items():
-                if not isinstance(value, (int, float, str)):
-                    ndata[key] = str(value)
-        for u, v, edata in graph.edges(data=True):
-            for key, value in edata.items():
-                if not isinstance(value, (int, float, str)):
-                    edata[key] = str(value)
-    
         graphData = {
             'timestamp': timestamp,
             'inputCount': self.inputCount,
             'outputCount': self.outputCount,
             'filterUsed': self.filterString,
-            'graph': json.dumps(json_graph.adjacency_data(graph))  
+            'graph': graph
         }
         self.history.append(graphData)
         self.saveHistory()
-
 
     def saveHistory(self):
         print('Saving history')
         with open(self.pathName, 'w') as f:
             for graphData in self.history:
-                line = f"{graphData['timestamp']}\t{graphData['inputCount']}\t{graphData['outputCount']}\t{json.dumps(graphData['filterUsed'])}\t{graphData['graph']}\n"
+                line = f"{graphData['timestamp']}\t{graphData['inputCount']}\t{graphData['outputCount']}\t{json.dumps(graphData['filterUsed'])}\t" + "{ \"nxGraph\": " + json.dumps(json_graph.adjacency_data(graphData['graph'])) + " }\n"
                 f.write(line)
 
     def loadHistory(self):
@@ -72,7 +60,7 @@ class GraphHistory:
                     'inputCount': int(parts[1]),
                     'outputCount': int(parts[2]),
                     'filterUsed': json.loads(parts[3]),
-                    'graph': json_graph.adjacency_graph(json.loads(parts[4]))  
+                    'graph': json_graph.adjacency_graph(json.loads(parts[4])["nxGraph"])  
                 }
                 self.history.append(graphData)
 
