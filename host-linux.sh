@@ -3,6 +3,12 @@
 # Change to the directory containing the script
 cd "$(dirname "$0")"
 
+# Create the history folder if it doesn't exist
+mkdir -p src/app/history
+mkdir -p src/app/history/images
+# Create an empty history file if it doesn't exist
+touch src/app/history/history.pkl
+
 # Check if virtual environment exists
 if [ ! -d "env" ]; then
     # Create virtual environment if it doesn't exist
@@ -21,7 +27,7 @@ source env/bin/activate
 pip install -r requirements.txt
 
 # Run Python script
-python src/app/hostServer.py
+python3 src/app/hostServer.py
 
 # Deactivate virtual environment
 deactivate
